@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import Content from './components/Content';
 import Sidebar from './components/Sidebar';
 import AdorationNav from './components/AdorationNav';
-import AvailableHoursPage from './pages/availableHours/AvailableHoursPage';
+import AvailableHoursContainer from './pages/availableHours/AvailableHoursContainer';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
           <AdorationNav />
         </Sidebar>
         <Content>
-          <AvailableHoursPage />
+          <AvailableHoursContainer />
         </Content>
       </BaseLayout>
       <Footer />
