@@ -36,6 +36,8 @@
         "linebreak-style": "off",
         "import/extensions": "off",
         "import/no-unresolved": "off",
-        "react/require-default-props": "off"
+        "react/require-default-props": "off",
+        "jsx-a11y/control-has-associated-label": "off",
+        "jsx-a11y/label-has-for": "off"
     }
 }

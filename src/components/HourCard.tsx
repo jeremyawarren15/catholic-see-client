@@ -50,7 +50,14 @@ const HourCard:FC<Props> = ({
         </div>
         <div className="card-body">
           <div className="progress">
-            <div className="progress-bar" role="progressbar" style={{ width: `${adorerPercentage}%` }} aria-valuenow={adorerPercentage} aria-valuemin={0} aria-valuemax={minimumAdorers}>Progress bar</div>
+            <div
+              className="progress-bar"
+              role="progressbar"
+              style={{ width: `${adorerPercentage}%` }}
+              aria-valuenow={adorerPercentage}
+              aria-valuemin={0}
+              aria-valuemax={minimumAdorers}
+            />
           </div>
           <p className="text-muted text-right">
             {numberOfAdorers}
