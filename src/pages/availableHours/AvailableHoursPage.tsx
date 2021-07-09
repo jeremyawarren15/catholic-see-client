@@ -17,7 +17,6 @@ interface Props {
 const AvailableHoursPage = ({
   sunday, monday, tuesday, wednesday, thursday, friday, saturday,
 }: Props) => {
-  console.log(sunday);
   const id = 'hoursAccordion';
   return (
     <Accordion id={id}>

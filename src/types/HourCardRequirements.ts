@@ -1,6 +1,6 @@
 export type HourCardRequirements = {
   hour: number,
-  day: string,
+  day: number,
   isAdmin: boolean,
   isClaimedByUser: boolean,
   location: string,

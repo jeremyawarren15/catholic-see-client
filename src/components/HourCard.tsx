@@ -1,19 +1,11 @@
-import React, { FC } from 'react';
-import { getTimeString } from '../../src/utilities/timeFormatter';
+import React from 'react';
+import { HourCardRequirements } from '../types/HourCardRequirements';
+import getDayString from '../utilities/dayFormatter';
+import getTimeString from '../utilities/timeFormatter';
 
-interface Props {
-  day: string,
-  hour: number,
-  location: string,
-  isAdmin: boolean,
-  isClaimedByUser: boolean,
-  numberOfAdorers: number,
-  minimumAdorers: number,
-}
-
-const HourCard:FC<Props> = ({
+const HourCard = ({
   day, hour, location, isAdmin, isClaimedByUser, numberOfAdorers, minimumAdorers,
-}: Props) => {
+}: HourCardRequirements) => {
   let actionButtons;
   if (isClaimedByUser) {
     actionButtons = (
@@ -37,7 +29,7 @@ const HourCard:FC<Props> = ({
         <div className="card-header d-flex align-items-center justify-content-between">
           <div>
             <h5 className="card-title">
-              {day}
+              {getDayString(day)}
               {' '}
               {getTimeString(hour)}
             </h5>

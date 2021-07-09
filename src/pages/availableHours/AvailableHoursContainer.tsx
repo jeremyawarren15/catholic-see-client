@@ -5,7 +5,7 @@ import AvailableHoursPage from './AvailableHoursPage';
 export const AvailableHoursContainer = () => {
   const x:HourCardRequirements[] = [
     {
-      day: 'Sunday',
+      day: 0,
       hour: 1,
       isAdmin: true,
       isClaimedByUser: true,
@@ -14,7 +14,7 @@ export const AvailableHoursContainer = () => {
       numberOfAdorers: 1,
     },
     {
-      day: 'Monday',
+      day: 1,
       hour: 1,
       isAdmin: true,
       isClaimedByUser: true,
