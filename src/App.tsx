@@ -7,20 +7,23 @@ import Content from './components/Content';
 import Sidebar from './components/Sidebar';
 import AdorationNav from './components/AdorationNav';
 import AvailableHoursContainer from './pages/availableHours/AvailableHoursContainer';
+import UserContext from './UserContext';
 
 function App() {
   return (
     <>
-      <NavBar />
-      <BaseLayout>
-        <Sidebar>
-          <AdorationNav />
-        </Sidebar>
-        <Content>
-          <AvailableHoursContainer />
-        </Content>
-      </BaseLayout>
-      <Footer />
+      <UserContext.Provider value={false}>
+        <NavBar />
+        <BaseLayout>
+          <Sidebar>
+            <AdorationNav />
+          </Sidebar>
+          <Content>
+            <AvailableHoursContainer />
+          </Content>
+        </BaseLayout>
+        <Footer />
+      </UserContext.Provider>
     </>
   );
 }

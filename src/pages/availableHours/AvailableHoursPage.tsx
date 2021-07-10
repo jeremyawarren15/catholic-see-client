@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Accordion from '../../components/Accordion';
 import AccordionItem from '../../components/AccordionItem';
 import HourCard from '../../components/HourCard';
 import { HourCardRequirements } from '../../types/HourCardRequirements';
+import UserContext from '../../UserContext';
 import daysOfTheWeek from '../../utilities/constants';
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 const AvailableHoursPage = ({
   hours,
 }: Props) => {
+  const isAdmin = useContext(UserContext);
   const getHoursForDay = (
     listOfHours:HourCardRequirements[],
     day:number,
@@ -30,7 +32,7 @@ const AvailableHoursPage = ({
               key={`${hour.hour} ${hour.day}`}
               hour={hour.hour}
               day={hour.day}
-              isAdmin={hour.isAdmin}
+              isAdmin={isAdmin}
               isClaimedByUser={hour.isClaimedByUser}
               location={hour.location}
               numberOfAdorers={hour.numberOfAdorers}
