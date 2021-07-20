@@ -12,6 +12,7 @@ import UnclaimHourModal from './components/modals/UnclaimHourModal';
 import CancelRequestModal from './components/modals/CancelRequestModal';
 import Content from './components/Content';
 import AvailableHoursContainer from './pages/availableHours/AvailableHoursContainer';
+import LoginPage from './pages/login/LoginPage';
 
 function App() {
   const routes = [
@@ -30,7 +31,7 @@ function App() {
     {
       path: '/login',
       exact: true,
-      component: <div>Test</div>,
+      component: <LoginPage />,
     },
   ];
 

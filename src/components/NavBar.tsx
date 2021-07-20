@@ -1,5 +1,6 @@
 import React from 'react';
-import LoggedIn from './LoggedIn';
+import { NavLink } from 'react-router-dom';
+import LoggedOut from './LoggedOut';
 
 function NavBar() {
   return (
@@ -19,13 +20,13 @@ function NavBar() {
             <span className="navbar-toggler-icon" />
           </button>
           <div className="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-            <LoggedIn />
+            <LoggedOut />
             <ul className="navbar-nav flex-grow-1">
               <li className="nav-item">
                 <a href="google.com" className="nav-link text-light">Parishes</a>
               </li>
               <li className="nav-item">
-                <a href="google.com" className="nav-link text-light">Adoration</a>
+                <NavLink exact to="/" className="nav-link text-light">Adoration</NavLink>
               </li>
             </ul>
           </div>
