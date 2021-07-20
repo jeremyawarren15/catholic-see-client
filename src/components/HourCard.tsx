@@ -25,7 +25,7 @@ const HourCard = ({
         <h5>Sub Requests</h5>
         <ul className="list-group mt-3">
           {subRequests.map((item) => (
-            <li className="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+            <li key={item} className="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
               {item}
               <button className="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#cancelRequestModal">Cancel Request</button>
             </li>

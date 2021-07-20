@@ -46,7 +46,7 @@ const AvailableHoursPage = ({
   return (
     <Accordion id={id}>
       {daysOfTheWeek.map((day) => (
-        <AccordionItem headerText={day.value} parentId={id}>
+        <AccordionItem key={day.index} headerText={day.value} parentId={id}>
           {renderHours(day)}
         </AccordionItem>
       ))}

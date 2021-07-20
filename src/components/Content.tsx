@@ -7,12 +7,9 @@ interface Props {
 
 function Content({ children }: Props) {
   return (
-    <Switch>
-      <div className="col-md-9">
-
-        {children}
-      </div>
-    </Switch>
+    <div className="col-md-9">
+      {children}
+    </div>
   );
 }
 

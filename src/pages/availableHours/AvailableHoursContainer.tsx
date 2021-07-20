@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import { HourCardRequirements } from '../../types/HourCardRequirements';
 import AvailableHoursPage from './AvailableHoursPage';
 
@@ -62,11 +61,9 @@ export const AvailableHoursContainer = () => {
   ];
 
   return (
-    <Route exact path="/available">
-      <AvailableHoursPage
-        hours={allHours}
-      />
-    </Route>
+    <AvailableHoursPage
+      hours={allHours}
+    />
   );
 };
 

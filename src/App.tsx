@@ -24,19 +24,29 @@ function App() {
     },
     {
       path: '/available',
-      exact: true,
+      exact: false,
       sidebar: <AdorationNav />,
       component: <AvailableHoursContainer />,
     },
     {
       path: '/login',
-      exact: true,
+      exact: false,
       component: <LoginPage />,
     },
   ];
 
   const registerRoutes = () => routes.map((route) => {
-    if (!route.sidebar) return (<div className="container">{route.component}</div>);
+    if (!route.sidebar) {
+      return (
+        <Route
+          key={route.path}
+          path={route.path}
+          exact={route.exact}
+        >
+          <div className="container">{route.component}</div>
+        </Route>
+      );
+    }
 
     return (
       <Route
