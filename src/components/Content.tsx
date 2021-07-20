@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { Switch } from 'react-router-dom';
 
 interface Props {
   children?: ReactNode
