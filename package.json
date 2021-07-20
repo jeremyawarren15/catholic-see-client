@@ -5,10 +5,13 @@
     "network": "vite --host",
     "build": "tsc && vite build",
     "serve": "vite preview",
+    "start": "node server.js",
     "test": "jest"
   },
   "dependencies": {
     "eslint": "^7.30.0",
+    "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-router-dom": "^5.2.0"
