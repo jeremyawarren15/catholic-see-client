@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Accordion from '../../components/Accordion';
 import AccordionItem from '../../components/AccordionItem';
 import HourCard from '../../components/HourCard';
+import { Day } from '../../types/Day';
 import { HourCardRequirements } from '../../types/HourCardRequirements';
-import UserContext from '../../UserContext';
 import daysOfTheWeek from '../../utilities/constants';
 
 interface Props {
@@ -13,7 +13,6 @@ interface Props {
 const AvailableHoursPage = ({
   hours,
 }: Props) => {
-  const isAdmin = useContext(UserContext);
   const getHoursForDay = (
     listOfHours:HourCardRequirements[],
     day:number,
@@ -22,23 +21,33 @@ const AvailableHoursPage = ({
     return filteredHours.sort((a, b) => a.hour - b.hour);
   };
 
+  const renderHours = (day:Day) => {
+    const hoursForDay = getHoursForDay(hours, day.index);
+    if (hoursForDay.length < 1) {
+      return <h4 className="text-muted">No hours</h4>;
+    }
+
+    return (hoursForDay?.map((hour) => (
+      <HourCard
+        key={`${hour.hour} ${hour.day}`}
+        hour={hour.hour}
+        day={hour.day}
+        parishId={hour.parishId}
+        isClaimedByUser={hour.isClaimedByUser}
+        location={hour.location}
+        numberOfAdorers={hour.numberOfAdorers}
+        minimumAdorers={hour.minimumAdorers}
+        showProgress
+      />
+    )));
+  };
+
   const id = 'hoursAccordion';
   return (
     <Accordion id={id}>
       {daysOfTheWeek.map((day) => (
         <AccordionItem headerText={day.value} parentId={id}>
-          {getHoursForDay(hours, day.index)?.map((hour) => (
-            <HourCard
-              key={`${hour.hour} ${hour.day}`}
-              hour={hour.hour}
-              day={hour.day}
-              isAdmin={isAdmin}
-              isClaimedByUser={hour.isClaimedByUser}
-              location={hour.location}
-              numberOfAdorers={hour.numberOfAdorers}
-              minimumAdorers={hour.minimumAdorers}
-            />
-          ))}
+          {renderHours(day)}
         </AccordionItem>
       ))}
     </Accordion>

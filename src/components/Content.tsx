@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { Switch } from 'react-router-dom';
 
 interface Props {
   children?: ReactNode
@@ -6,9 +7,12 @@ interface Props {
 
 function Content({ children }: Props) {
   return (
-    <div className="col-md-9">
-      {children}
-    </div>
+    <Switch>
+      <div className="col-md-9">
+
+        {children}
+      </div>
+    </Switch>
   );
 }
 

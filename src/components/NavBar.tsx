@@ -4,7 +4,7 @@ import LoggedIn from './LoggedIn';
 function NavBar() {
   return (
     <header>
-      <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom mb-3">
+      <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom mb-3">
         <div className="container">
           <a href="google.com" className="navbar-brand text-light">ParishManager</a>
           <button

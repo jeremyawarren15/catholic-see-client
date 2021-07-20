@@ -1,16 +1,17 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 type SideBarLinkProps = {
   linkText:string,
-  active:boolean
+  href:string
 }
 
-function SidebarLink({ linkText, active }:SideBarLinkProps) {
-  return (
-    <li className="nav-item">
-      <a href="google.com" className={`nav-link ${active ? 'active' : ''}`}>{linkText}</a>
-    </li>
-  );
-}
+const SidebarLink = ({
+  linkText, href,
+}:SideBarLinkProps) => (
+  <li className="nav-item">
+    <NavLink exact to={href} activeClassName="active" className="nav-link">{linkText}</NavLink>
+  </li>
+);
 
 export default SidebarLink;

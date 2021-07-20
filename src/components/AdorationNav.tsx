@@ -3,9 +3,9 @@ import SidebarLink from './SidebarLink';
 
 const AdorationNav = () => (
   <>
-    <SidebarLink active={false} linkText="Claimed Hours" />
-    <SidebarLink active linkText="Available Hours" />
-    <SidebarLink active={false} linkText="Substitution Requests" />
+    <SidebarLink href="/" linkText="Claimed Hours" />
+    <SidebarLink href="/available" linkText="Available Hours" />
+    <SidebarLink href="requests" linkText="Substitution Requests" />
   </>
 );
 
