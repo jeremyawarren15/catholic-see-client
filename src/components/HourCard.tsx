@@ -15,7 +15,7 @@ const HourCard = ({
   subRequests,
   showProgress,
 }: HourCardRequirements) => {
-  const { adminParishIds, updateAdminParishIds } = useContext(UserContext);
+  const { adminParishIds } = useContext(UserContext);
 
   const renderSubRequests = () => {
     if (!subRequests) return <></>;
