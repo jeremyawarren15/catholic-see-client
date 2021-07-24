@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import UserContext from '../UserContext';
 
 function LoggedIn() {
+  const { name, logOut } = useContext(UserContext);
   return (
     <ul className="navbar-nav">
       <li className="nav-item">
-        <a href="google.com" className="nav-link text-light" title="Manage">Jeremy Warren</a>
+        <a href="google.com" className="nav-link text-light" title="Manage">{name}</a>
       </li>
       <li className="nav-item">
-        <form className="form-inline">
-          <button type="submit" className="nav-link btn btn-link text-light">Logout</button>
-        </form>
+        <button type="button" onClick={() => logOut()} className="nav-link btn btn-link text-light">Logout</button>
       </li>
     </ul>
   );

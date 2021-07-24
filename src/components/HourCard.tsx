@@ -15,7 +15,7 @@ const HourCard = ({
   subRequests,
   showProgress,
 }: HourCardRequirements) => {
-  const parishesUserIsAdmin = useContext(UserContext);
+  const { adminParishIds, updateAdminParishIds } = useContext(UserContext);
 
   const renderSubRequests = () => {
     if (!subRequests) return <></>;
@@ -82,7 +82,8 @@ const HourCard = ({
   };
 
   const renderEditButton = () => {
-    if (!parishesUserIsAdmin.includes(parishId)) return <></>;
+    if (!adminParishIds?.includes(parishId)) return <></>;
+
     return (
       <a href="google.com" className="btn btn-sm btn-outline-primary">Edit</a>
     );
