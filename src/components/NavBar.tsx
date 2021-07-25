@@ -34,14 +34,6 @@ function NavBar() {
           </button>
           <div className="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
             {renderLoginButtons()}
-            <ul className="navbar-nav flex-grow-1">
-              <li className="nav-item">
-                <a href="google.com" className="nav-link text-light">Parishes</a>
-              </li>
-              <li className="nav-item">
-                <NavLink exact to={appPaths.claimed} className="nav-link text-light">Adoration</NavLink>
-              </li>
-            </ul>
           </div>
         </div>
       </nav>
