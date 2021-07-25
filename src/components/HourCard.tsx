@@ -9,7 +9,7 @@ const HourCard = ({
   hour,
   location,
   isClaimedByUser,
-  numberOfAdorers,
+  adorerCount,
   minimumAdorers,
   parishId,
   subRequests,
@@ -50,7 +50,7 @@ const HourCard = ({
 
     let adorerPercentage = 0.0;
     if (minimumAdorers > 0) {
-      adorerPercentage = (numberOfAdorers * 100.0) / minimumAdorers;
+      adorerPercentage = (adorerCount * 100.0) / minimumAdorers;
     }
 
     let progressBarClasses = 'progress-bar bg-success';
@@ -73,7 +73,7 @@ const HourCard = ({
           />
         </div>
         <p className="text-muted text-right">
-          {numberOfAdorers}
+          {adorerCount}
           /
           {minimumAdorers}
         </p>

@@ -9,7 +9,7 @@ const ClaimedHoursPage = () => (
     isClaimedByUser
     location="Sacred Heart Chapel"
     minimumAdorers={2}
-    numberOfAdorers={1}
+    adorerCount={1}
     parishId={1}
     subRequests={['March 4, 2021']}
   />

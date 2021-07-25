@@ -3,7 +3,7 @@ export type HourCardRequirements = {
   day: number,
   isClaimedByUser: boolean,
   location: string,
-  numberOfAdorers: number,
+  adorerCount: number,
   minimumAdorers: number,
   parishId: number,
   subRequests?: string[],

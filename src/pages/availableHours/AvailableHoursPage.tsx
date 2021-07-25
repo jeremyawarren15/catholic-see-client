@@ -35,7 +35,7 @@ const AvailableHoursPage = ({
         parishId={hour.parishId}
         isClaimedByUser={hour.isClaimedByUser}
         location={hour.location}
-        numberOfAdorers={hour.numberOfAdorers}
+        adorerCount={hour.adorerCount}
         minimumAdorers={hour.minimumAdorers}
         showProgress
       />

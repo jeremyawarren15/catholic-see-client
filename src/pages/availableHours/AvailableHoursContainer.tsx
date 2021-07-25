@@ -1,68 +1,24 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { HourCardRequirements } from '../../types/HourCardRequirements';
 import AvailableHoursPage from './AvailableHoursPage';
+import getHours from '../../service/hoursService';
+import UserContext from '../../UserContext';
 
 export const AvailableHoursContainer = () => {
-  const allHours:HourCardRequirements[] = [
-    {
-      day: 0,
-      hour: 1,
-      parishId: 1,
-      isClaimedByUser: true,
-      location: 'Sacred Heart Chapel',
-      minimumAdorers: 2,
-      numberOfAdorers: 1,
-    },
-    {
-      day: 1,
-      hour: 1,
-      parishId: 11,
-      isClaimedByUser: true,
-      location: 'Sacred Heart Chapel',
-      minimumAdorers: 2,
-      numberOfAdorers: 1,
-    },
-    {
-      day: 2,
-      hour: 1,
-      parishId: 11,
-      isClaimedByUser: true,
-      location: 'Sacred Heart Chapel',
-      minimumAdorers: 2,
-      numberOfAdorers: 1,
-    },
-    {
-      day: 5,
-      hour: 15,
-      parishId: 11,
-      isClaimedByUser: true,
-      location: 'Sacred Heart Chapel',
-      minimumAdorers: 2,
-      numberOfAdorers: 1,
-    },
-    {
-      day: 5,
-      hour: 11,
-      parishId: 11,
-      isClaimedByUser: true,
-      location: 'Sacred Heart Chapel',
-      minimumAdorers: 2,
-      numberOfAdorers: 2,
-    },
-    {
-      day: 5,
-      hour: 12,
-      parishId: 2,
-      isClaimedByUser: false,
-      location: 'Sacred Heart Chapel',
-      minimumAdorers: 2,
-      numberOfAdorers: 1,
-    },
-  ];
+  const [hours, setHours] = useState<HourCardRequirements[]>([]);
+  const { token } = useContext(UserContext);
+
+  useEffect(() => {
+    getHours(token).then(({ data }) => {
+      setHours(data);
+    }).catch(() => {
+      setHours([]);
+    });
+  }, [token]);
 
   return (
     <AvailableHoursPage
-      hours={allHours}
+      hours={hours}
     />
   );
 };

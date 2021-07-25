@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import login from '../../service/authService';
 import UserContext from '../../UserContext';
+import urls from '../../utilities/urlResolver';
 
 type FormValues = {
   emailAddress: string,
@@ -10,6 +12,7 @@ type FormValues = {
 
 const LoginPage = () => {
   const { updateToken, updateAdminParishIds, updateName } = useContext(UserContext);
+  const history = useHistory();
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
   const onSubmit = async ({ emailAddress, password }:FormValues) => {
@@ -18,6 +21,7 @@ const LoginPage = () => {
         updateAdminParishIds(data.parishAdminAccessIds);
         updateToken(data.access_Token);
         updateName(data.name);
+        history.push(urls.claimed);
       });
   };
 

@@ -12,25 +12,38 @@ import Content from './components/Content';
 import AvailableHoursContainer from './pages/availableHours/AvailableHoursContainer';
 import LoginPage from './pages/login/LoginPage';
 import UserProvider from './providers/UserProvider';
+import HomePage from './pages/home/HomePage';
+import urls from './utilities/urlResolver';
 
 function App() {
   const routes = [
     {
-      path: '/',
-      exact: true,
-      sidebar: <AdorationNav />,
-      component: <ClaimedHoursContainer />,
-    },
-    {
-      path: '/available',
+      path: urls.available,
       exact: false,
       sidebar: <AdorationNav />,
       component: <AvailableHoursContainer />,
     },
     {
-      path: '/login',
+      path: urls.claimed,
+      exact: false,
+      sidebar: <AdorationNav />,
+      component: <ClaimedHoursContainer />,
+    },
+    {
+      path: urls.requests,
+      exact: false,
+      sidebar: <AdorationNav />,
+      component: <HomePage />,
+    },
+    {
+      path: urls.login,
       exact: false,
       component: <LoginPage />,
+    },
+    {
+      path: urls.home,
+      exact: true,
+      component: <HomePage />,
     },
   ];
 
