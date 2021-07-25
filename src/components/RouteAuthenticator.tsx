@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router';
-import UserContext from '../UserContext';
+import UserContext from '../contexts/UserContext';
 import appPaths from '../utilities/appPaths';
 
 const AuthenticatedRoute = ({ children, ...other }: RouteProps) => {

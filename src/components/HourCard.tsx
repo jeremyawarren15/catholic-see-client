@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { HourCardRequirements } from '../types/HourCardRequirements';
-import UserContext from '../UserContext';
+import UserContext from '../contexts/UserContext';
 import getDayString from '../utilities/dayFormatter';
 import getTimeString from '../utilities/timeFormatter';
 

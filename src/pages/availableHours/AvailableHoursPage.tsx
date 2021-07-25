@@ -29,6 +29,7 @@ const AvailableHoursPage = ({
 
     return (hoursForDay?.map((hour) => (
       <HourCard
+        timeSlotId={hour.timeSlotId}
         key={`${hour.hour} ${hour.day}`}
         hour={hour.hour}
         day={hour.day}

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
+import UserContext from '../../contexts/UserContext';
 import login from '../../service/authService';
-import UserContext from '../../UserContext';
 import appPaths from '../../utilities/appPaths';
 
 type FormValues = {

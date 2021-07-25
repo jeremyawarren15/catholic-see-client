@@ -3,7 +3,8 @@ import HourCard from '../../components/HourCard';
 
 const ClaimedHoursPage = () => (
   <HourCard
-    key="1"
+    timeSlotId={111}
+    key="111"
     hour={1}
     day={1}
     isClaimedByUser

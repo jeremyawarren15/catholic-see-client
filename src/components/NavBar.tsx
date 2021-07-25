@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import UserContext from '../UserContext';
+import UserContext from '../contexts/UserContext';
 import appPaths from '../utilities/appPaths';
 import LoggedIn from './LoggedIn';
 import LoggedOut from './LoggedOut';

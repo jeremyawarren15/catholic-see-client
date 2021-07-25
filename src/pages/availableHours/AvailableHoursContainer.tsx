@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { HourCardRequirements } from '../../types/HourCardRequirements';
 import AvailableHoursPage from './AvailableHoursPage';
 import getHours from '../../service/hoursService';
-import UserContext from '../../UserContext';
+import UserContext from '../../contexts/UserContext';
 
 export const AvailableHoursContainer = () => {
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
