@@ -13,50 +13,86 @@ import AvailableHoursContainer from './pages/availableHours/AvailableHoursContai
 import LoginPage from './pages/login/LoginPage';
 import UserProvider from './providers/UserProvider';
 import HomePage from './pages/home/HomePage';
-import urls from './utilities/urlResolver';
+import appPaths from './utilities/appPaths';
+import AuthenticatedRoute from './components/RouteAuthenticator';
 
 function App() {
   const routes = [
     {
-      path: urls.available,
+      path: appPaths.available,
       exact: false,
+      authenticated: true,
       sidebar: <AdorationNav />,
       component: <AvailableHoursContainer />,
     },
     {
-      path: urls.claimed,
+      path: appPaths.claimed,
       exact: false,
+      authenticated: true,
       sidebar: <AdorationNav />,
       component: <ClaimedHoursContainer />,
     },
     {
-      path: urls.requests,
+      path: appPaths.requests,
       exact: false,
+      authenticated: true,
       sidebar: <AdorationNav />,
       component: <HomePage />,
     },
     {
-      path: urls.login,
+      path: appPaths.login,
       exact: false,
+      authenticated: false,
       component: <LoginPage />,
     },
     {
-      path: urls.home,
+      path: appPaths.home,
       exact: true,
+      authenticated: false,
       component: <HomePage />,
     },
   ];
 
-  const registerRoutes = () => routes.map((route) => {
-    if (!route.sidebar) {
+  const getDefault = (route) => {
+    if (route.authenticated) {
       return (
-        <Route
+        <AuthenticatedRoute
           key={route.path}
           path={route.path}
           exact={route.exact}
         >
           <div className="container">{route.component}</div>
-        </Route>
+        </AuthenticatedRoute>
+      );
+    }
+    return (
+      <Route
+        key={route.path}
+        path={route.path}
+        exact={route.exact}
+      >
+        <div className="container">{route.component}</div>
+      </Route>
+    );
+  };
+
+  const getSidebar = (route) => {
+    if (route.authenticated) {
+      return (
+        <AuthenticatedRoute
+          key={route.path}
+          path={route.path}
+          exact={route.exact}
+        >
+          <BaseLayout>
+            <Sidebar>
+              {route.sidebar}
+            </Sidebar>
+            <Content>
+              {route.component}
+            </Content>
+          </BaseLayout>
+        </AuthenticatedRoute>
       );
     }
 
@@ -76,6 +112,14 @@ function App() {
         </BaseLayout>
       </Route>
     );
+  };
+
+  const registerRoutes = () => routes.map((route) => {
+    if (!route.sidebar) {
+      return getDefault(route);
+    }
+
+    return getSidebar(route);
   });
 
   return (

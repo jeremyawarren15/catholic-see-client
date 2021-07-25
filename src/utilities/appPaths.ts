@@ -1,4 +1,4 @@
-const urls = {
+const appPaths = {
   home: '/',
   available: '/available',
   claimed: '/claim',
@@ -6,4 +6,4 @@ const urls = {
   requests: '/requests',
 };
 
-export default urls;
+export default appPaths;

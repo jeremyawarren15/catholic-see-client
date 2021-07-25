@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import login from '../../service/authService';
 import UserContext from '../../UserContext';
-import urls from '../../utilities/urlResolver';
+import appPaths from '../../utilities/appPaths';
 
 type FormValues = {
   emailAddress: string,
@@ -21,7 +21,7 @@ const LoginPage = () => {
         updateAdminParishIds(data.parishAdminAccessIds);
         updateToken(data.access_Token);
         updateName(data.name);
-        history.push(urls.claimed);
+        history.push(appPaths.claimed);
       });
   };
 

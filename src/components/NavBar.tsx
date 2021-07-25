@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import UserContext from '../UserContext';
-import urls from '../utilities/urlResolver';
+import appPaths from '../utilities/appPaths';
 import LoggedIn from './LoggedIn';
 import LoggedOut from './LoggedOut';
 
@@ -20,7 +20,7 @@ function NavBar() {
     <header>
       <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom mb-3">
         <div className="container">
-          <NavLink exact to={urls.home} activeClassName="active" className="navbar-brand text-light">ParishManager</NavLink>
+          <NavLink exact to={appPaths.home} activeClassName="active" className="navbar-brand text-light">ParishManager</NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -39,7 +39,7 @@ function NavBar() {
                 <a href="google.com" className="nav-link text-light">Parishes</a>
               </li>
               <li className="nav-item">
-                <NavLink exact to={urls.claimed} className="nav-link text-light">Adoration</NavLink>
+                <NavLink exact to={appPaths.claimed} className="nav-link text-light">Adoration</NavLink>
               </li>
             </ul>
           </div>

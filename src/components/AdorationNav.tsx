@@ -1,12 +1,12 @@
 import React from 'react';
-import urls from '../utilities/urlResolver';
+import appPaths from '../utilities/appPaths';
 import SidebarLink from './SidebarLink';
 
 const AdorationNav = () => (
   <>
-    <SidebarLink href={urls.claimed} linkText="Claimed Hours" />
-    <SidebarLink href={urls.available} linkText="Available Hours" />
-    <SidebarLink href={urls.requests} linkText="Substitution Requests" />
+    <SidebarLink href={appPaths.claimed} linkText="Claimed Hours" />
+    <SidebarLink href={appPaths.available} linkText="Available Hours" />
+    <SidebarLink href={appPaths.requests} linkText="Substitution Requests" />
   </>
 );
 
