@@ -1,19 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { HourCardRequirements } from '../../types/HourCardRequirements';
+import React, { useContext, useEffect } from 'react';
 import AvailableHoursPage from './AvailableHoursPage';
-import getHours from '../../service/hoursService';
 import UserContext from '../../contexts/UserContext';
+import AvailableHoursContext from '../../contexts/AvailableHoursContext';
 
 export const AvailableHoursContainer = () => {
-  const [hours, setHours] = useState<HourCardRequirements[]>([]);
+  const { hours, updateHours } = useContext(AvailableHoursContext);
   const { token } = useContext(UserContext);
 
   useEffect(() => {
-    getHours(token).then(({ data }) => {
-      setHours(data);
-    }).catch(() => {
-      setHours([]);
-    });
+    updateHours();
   }, [token]);
 
   return (

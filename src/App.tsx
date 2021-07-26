@@ -15,6 +15,7 @@ import UserProvider from './providers/UserProvider';
 import HomePage from './pages/home/HomePage';
 import appPaths from './utilities/appPaths';
 import AuthenticatedRoute from './components/RouteAuthenticator';
+import AvailableHoursProvider from './providers/AvailableHoursProvider';
 
 function App() {
   const routes = [
@@ -125,14 +126,16 @@ function App() {
   return (
     <>
       <UserProvider>
-        <Router>
-          <NavBar />
-          <Switch>
-            {registerRoutes()}
-          </Switch>
-        </Router>
-        <UnclaimHourModal />
-        <CancelRequestModal />
+        <AvailableHoursProvider>
+          <Router>
+            <NavBar />
+            <Switch>
+              {registerRoutes()}
+            </Switch>
+          </Router>
+          <UnclaimHourModal />
+          <CancelRequestModal />
+        </AvailableHoursProvider>
       </UserProvider>
     </>
   );
