@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 export type HourCardRequirements = {
+  timeSlotId: number,
   hour: number,
   day: number,
   isClaimedByUser: boolean,
@@ -8,4 +10,6 @@ export type HourCardRequirements = {
   parishId: number,
   subRequests?: string[],
   showProgress?: boolean
+  claim: (timeSlotId:number) => void
+  setModalTimeSlotId: (timeSlotId:number) => void
 }

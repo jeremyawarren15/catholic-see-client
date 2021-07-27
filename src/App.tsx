@@ -5,17 +5,15 @@ import BaseLayout from './components/BaseLayout';
 import NavBar from './components/NavBar';
 import Sidebar from './components/Sidebar';
 import AdorationNav from './components/AdorationNav';
-import ClaimedHoursContainer from './pages/claimedHours/ClaimedHoursContainer';
-import UnclaimHourModal from './components/modals/UnclaimHourModal';
 import CancelRequestModal from './components/modals/CancelRequestModal';
 import Content from './components/Content';
-import AvailableHoursContainer from './pages/availableHours/AvailableHoursContainer';
-import LoginPage from './pages/login/LoginPage';
+import LoginPage from './pages/LoginPage';
 import UserProvider from './providers/UserProvider';
-import HomePage from './pages/home/HomePage';
+import HomePage from './pages/HomePage';
 import appPaths from './utilities/appPaths';
 import AuthenticatedRoute from './components/RouteAuthenticator';
-import AvailableHoursProvider from './providers/AvailableHoursProvider';
+import AvailableHoursPage from './pages/AvailableHoursPage';
+import ClaimedHoursPage from './pages/ClaimedHoursPage';
 
 function App() {
   const routes = [
@@ -24,14 +22,14 @@ function App() {
       exact: false,
       authenticated: true,
       sidebar: <AdorationNav />,
-      component: <AvailableHoursContainer />,
+      component: <AvailableHoursPage />,
     },
     {
       path: appPaths.claimed,
       exact: false,
       authenticated: true,
       sidebar: <AdorationNav />,
-      component: <ClaimedHoursContainer />,
+      component: <ClaimedHoursPage />,
     },
     {
       path: appPaths.requests,
@@ -126,16 +124,13 @@ function App() {
   return (
     <>
       <UserProvider>
-        <AvailableHoursProvider>
-          <Router>
-            <NavBar />
-            <Switch>
-              {registerRoutes()}
-            </Switch>
-          </Router>
-          <UnclaimHourModal />
-          <CancelRequestModal />
-        </AvailableHoursProvider>
+        <Router>
+          <NavBar />
+          <Switch>
+            {registerRoutes()}
+          </Switch>
+        </Router>
+        <CancelRequestModal />
       </UserProvider>
     </>
   );

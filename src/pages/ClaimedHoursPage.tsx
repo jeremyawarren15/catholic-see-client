@@ -1,5 +1,5 @@
 import React from 'react';
-import HourCard from '../../components/HourCard';
+import HourCard from '../components/HourCard';
 
 const ClaimedHoursPage = () => (
   <HourCard

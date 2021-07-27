@@ -5,6 +5,7 @@ import getDayString from '../utilities/dayFormatter';
 import getTimeString from '../utilities/timeFormatter';
 
 const HourCard = ({
+  timeSlotId,
   day,
   hour,
   location,
@@ -14,6 +15,8 @@ const HourCard = ({
   parishId,
   subRequests,
   showProgress,
+  claim,
+  setModalTimeSlotId,
 }: HourCardRequirements) => {
   const { adminParishIds } = useContext(UserContext);
 
@@ -36,10 +39,20 @@ const HourCard = ({
   };
 
   const renderActionButtons = () => {
-    if (!isClaimedByUser) return <button className="btn btn-sm btn-success" type="button">Claim</button>;
+    if (!isClaimedByUser) return <button className="btn btn-sm btn-success" type="button" onClick={() => claim(timeSlotId)}>Claim</button>;
     return (
       <>
-        <button className="btn btn-sm btn-danger me-2" type="button" data-bs-target="#unclaimHourModal" data-bs-toggle="modal">Unclaim</button>
+        <button
+          className="btn btn-sm btn-danger me-2"
+          type="button"
+          data-bs-target="#unclaimHourModal"
+          data-bs-toggle="modal"
+          onClick={() => {
+            setModalTimeSlotId(timeSlotId);
+          }}
+        >
+          Unclaim
+        </button>
         <button className="btn btn-sm btn-primary me-2" type="button">Request Sub</button>
       </>
     );
