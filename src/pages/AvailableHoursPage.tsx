@@ -19,7 +19,7 @@ const AvailableHoursPage = () => {
     setHours(data);
   };
 
-  const claim = async (timeSlotId:number) => {
+  const handleClaimHour = async (timeSlotId:number) => {
     await claimHour(token, timeSlotId);
     updateHours();
   };
@@ -43,6 +43,7 @@ const AvailableHoursPage = () => {
 
   const renderHours = (day:Day) => {
     const hoursForDay = getHoursForDay(hours, day.index);
+
     if (hoursForDay.length < 1) {
       return <h4 className="text-muted">No hours</h4>;
     }
@@ -58,8 +59,9 @@ const AvailableHoursPage = () => {
         location={hour.location}
         adorerCount={hour.adorerCount}
         minimumAdorers={hour.minimumAdorers}
-        claim={claim}
-        setModalTimeSlotId={setModalTimeSlotId}
+        handleClaimHour={handleClaimHour}
+        handleUnclaimHour={setModalTimeSlotId}
+        handleCancelSubRequest={() => Error('Should not be able to cancel sub requests from this card.')}
         showProgress
       />
     )));
@@ -75,7 +77,10 @@ const AvailableHoursPage = () => {
           </AccordionItem>
         ))}
       </Accordion>
-      <UnclaimHourModal timeSlotId={modalTimeSlotId} unclaim={unclaim} />
+      <UnclaimHourModal
+        timeSlotId={modalTimeSlotId}
+        unclaim={unclaim}
+      />
     </>
   );
 };

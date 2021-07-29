@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
-import AvailableHoursContext from '../../contexts/AvailableHoursContext';
-import UnclaimHourContext from '../../contexts/UnclaimHourModalContext';
+import React from 'react';
 import Modal from '../Modal';
 
 type Props = {

@@ -20,7 +20,7 @@ function NavBar() {
     <header>
       <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom mb-3">
         <div className="container">
-          <NavLink exact to={appPaths.home} activeClassName="active" className="navbar-brand text-light">ParishManager</NavLink>
+          <NavLink exact to={appPaths.home} activeClassName="active" className="navbar-brand text-light">CatholicSee</NavLink>
           <button
             className="navbar-toggler"
             type="button"

@@ -1,3 +1,5 @@
+import { SubRequestListItem } from './SubRequestListItem';
+
 /* eslint-disable no-unused-vars */
 export type HourCardRequirements = {
   timeSlotId: number,
@@ -8,8 +10,9 @@ export type HourCardRequirements = {
   adorerCount: number,
   minimumAdorers: number,
   parishId: number,
-  subRequests?: string[],
+  subRequests?: SubRequestListItem[],
   showProgress?: boolean
-  claim: (timeSlotId:number) => void
-  setModalTimeSlotId: (timeSlotId:number) => void
+  handleClaimHour: (timeSlotId:number) => void
+  handleUnclaimHour: (timeSlotId:number) => void
+  handleCancelSubRequest: (subRequestId:number) => void
 }

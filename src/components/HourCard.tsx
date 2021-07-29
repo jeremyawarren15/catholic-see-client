@@ -15,22 +15,48 @@ const HourCard = ({
   parishId,
   subRequests,
   showProgress,
-  claim,
-  setModalTimeSlotId,
+  handleClaimHour,
+  handleUnclaimHour,
+  handleCancelSubRequest,
 }: HourCardRequirements) => {
   const { adminParishIds } = useContext(UserContext);
 
   const renderSubRequests = () => {
     if (!subRequests) return <></>;
 
+    const getListGroupClasses = (isClaimed:boolean) => {
+      if (isClaimed) {
+        return 'list-group-item list-group-item-success d-flex justify-content-between align-items-center';
+      }
+      return 'list-group-item list-group-item-warning d-flex justify-content-between align-items-center';
+    };
+
+    const getListButtonClasses = (isClaimed:boolean) => {
+      if (isClaimed) {
+        return 'btn btn-outline-success btn-sm';
+      }
+      return 'btn btn-outline-warning btn-sm';
+    };
+
+    const getText = (date:string, isClaimed:boolean) => `${date} - ${isClaimed ? 'Claimed' : 'Unclaimed'}`;
+
     return (
       <>
         <h5>Sub Requests</h5>
         <ul className="list-group mt-3">
           {subRequests.map((item) => (
-            <li key={item} className="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
-              {item}
-              <button className="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#cancelRequestModal">Cancel Request</button>
+            <li key={item.subRequestId} className={getListGroupClasses(item.hasBeenPickedUp)}>
+              {getText(item.dateOfSubstitution, item.hasBeenPickedUp)}
+              <button
+                className={getListButtonClasses(item.hasBeenPickedUp)}
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#cancelRequestModal"
+                onClick={() => handleCancelSubRequest(item.subRequestId)}
+              >
+                Cancel Request
+
+              </button>
             </li>
           ))}
         </ul>
@@ -39,7 +65,18 @@ const HourCard = ({
   };
 
   const renderActionButtons = () => {
-    if (!isClaimedByUser) return <button className="btn btn-sm btn-success" type="button" onClick={() => claim(timeSlotId)}>Claim</button>;
+    if (!isClaimedByUser) {
+      return (
+        <button
+          className="btn btn-sm btn-success"
+          type="button"
+          onClick={() => handleClaimHour(timeSlotId)}
+        >
+          Claim
+        </button>
+      );
+    }
+
     return (
       <>
         <button
@@ -47,9 +84,7 @@ const HourCard = ({
           type="button"
           data-bs-target="#unclaimHourModal"
           data-bs-toggle="modal"
-          onClick={() => {
-            setModalTimeSlotId(timeSlotId);
-          }}
+          onClick={() => handleUnclaimHour(timeSlotId)}
         >
           Unclaim
         </button>
