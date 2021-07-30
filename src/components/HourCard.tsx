@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
+import { Redirect, useHistory } from 'react-router';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import UserContext from '../contexts/UserContext';
 import getDayString from '../utilities/dayFormatter';
 import getTimeString from '../utilities/timeFormatter';
+import appPaths from '../utilities/appPaths';
 
 const HourCard = ({
   timeSlotId,
@@ -20,6 +22,7 @@ const HourCard = ({
   handleCancelSubRequest,
 }: HourCardRequirements) => {
   const { adminParishIds } = useContext(UserContext);
+  const history = useHistory();
 
   const renderSubRequests = () => {
     if (!subRequests) return <></>;
@@ -77,6 +80,10 @@ const HourCard = ({
       );
     }
 
+    const handleRequestSub = () => {
+      history.push(`/createSubRequest/${timeSlotId}`);
+    };
+
     return (
       <>
         <button
@@ -88,7 +95,13 @@ const HourCard = ({
         >
           Unclaim
         </button>
-        <button className="btn btn-sm btn-primary me-2" type="button">Request Sub</button>
+        <button
+          className="btn btn-sm btn-primary me-2"
+          type="button"
+          onClick={() => handleRequestSub()}
+        >
+          Request Sub
+        </button>
       </>
     );
   };

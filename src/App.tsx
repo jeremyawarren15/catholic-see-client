@@ -1,11 +1,10 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import BaseLayout from './components/BaseLayout';
+import BaseLayout from './components/layouts/BaseLayout';
 import NavBar from './components/NavBar';
 import Sidebar from './components/Sidebar';
 import AdorationNav from './components/AdorationNav';
-import CancelRequestModal from './components/modals/CancelRequestModal';
 import Content from './components/Content';
 import LoginPage from './pages/LoginPage';
 import UserProvider from './providers/UserProvider';
@@ -14,6 +13,7 @@ import appPaths from './utilities/appPaths';
 import AuthenticatedRoute from './components/RouteAuthenticator';
 import AvailableHoursPage from './pages/AvailableHoursPage';
 import ClaimedHoursPage from './pages/ClaimedHoursPage';
+import CreateSubRequestPage from './pages/CreateSubRequestPage';
 
 function App() {
   const routes = [
@@ -37,6 +37,12 @@ function App() {
       authenticated: true,
       sidebar: <AdorationNav />,
       component: <HomePage />,
+    },
+    {
+      path: appPaths.createSubRequest,
+      exact: false,
+      authenticated: true,
+      component: <CreateSubRequestPage />,
     },
     {
       path: appPaths.login,
@@ -130,7 +136,6 @@ function App() {
             {registerRoutes()}
           </Switch>
         </Router>
-        <CancelRequestModal />
       </UserProvider>
     </>
   );
