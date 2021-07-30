@@ -13,10 +13,16 @@ import appPaths from './utilities/appPaths';
 import AuthenticatedRoute from './components/RouteAuthenticator';
 import AvailableHoursPage from './pages/AvailableHoursPage';
 import ClaimedHoursPage from './pages/ClaimedHoursPage';
-import CreateSubRequestPage from './pages/CreateSubRequestPage';
 
 function App() {
-  const routes = [
+  type RouteDefinition = {
+    path: string,
+    exact: boolean,
+    authenticated: boolean,
+    sidebar?: React.ReactNode,
+    component: React.ReactNode
+  }
+  const routes:RouteDefinition[] = [
     {
       path: appPaths.available,
       exact: false,
@@ -52,7 +58,7 @@ function App() {
     },
   ];
 
-  const getDefault = (route) => {
+  const getDefault = (route:RouteDefinition) => {
     if (route.authenticated) {
       return (
         <AuthenticatedRoute
@@ -75,7 +81,7 @@ function App() {
     );
   };
 
-  const getSidebar = (route) => {
+  const getSidebar = (route:RouteDefinition) => {
     if (route.authenticated) {
       return (
         <AuthenticatedRoute
