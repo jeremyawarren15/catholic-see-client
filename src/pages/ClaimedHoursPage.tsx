@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import HourCard from '../components/HourCard';
 import CancelRequestModal from '../components/modals/CancelRequestModal';
 import UnclaimHourModal from '../components/modals/UnclaimHourModal';
+import CreateRequestModal from '../components/modals/CreateRequestModal';
 import UserContext from '../contexts/UserContext';
 import { getClaimedHours, unclaimHour } from '../service/hoursService';
 import { HourCardRequirements } from '../types/HourCardRequirements';
@@ -64,6 +65,7 @@ const ClaimedHoursPage = () => {
         subRequestId={modalSubRequestId}
         handleCancelRequest={handleCancelRequestModal}
       />
+      <CreateRequestModal />
     </>
   );
 };

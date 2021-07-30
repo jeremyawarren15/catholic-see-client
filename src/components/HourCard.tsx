@@ -80,10 +80,6 @@ const HourCard = ({
       );
     }
 
-    const handleRequestSub = () => {
-      history.push(`/createSubRequest/${timeSlotId}`);
-    };
-
     return (
       <>
         <button
@@ -98,7 +94,8 @@ const HourCard = ({
         <button
           className="btn btn-sm btn-primary me-2"
           type="button"
-          onClick={() => handleRequestSub()}
+          data-bs-toggle="modal"
+          data-bs-target="#createSubRequestModal"
         >
           Request Sub
         </button>

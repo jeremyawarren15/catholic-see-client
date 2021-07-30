@@ -39,12 +39,6 @@ function App() {
       component: <HomePage />,
     },
     {
-      path: appPaths.createSubRequest,
-      exact: false,
-      authenticated: true,
-      component: <CreateSubRequestPage />,
-    },
-    {
       path: appPaths.login,
       exact: false,
       authenticated: false,

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Accordion from '../components/Accordion';
 import AccordionItem from '../components/AccordionItem';
 import HourCard from '../components/HourCard';
+import CreateRequestModal from '../components/modals/CreateRequestModal';
 import UnclaimHourModal from '../components/modals/UnclaimHourModal';
 import UserContext from '../contexts/UserContext';
 import { claimHour, getHours, unclaimHour } from '../service/hoursService';
@@ -81,6 +82,7 @@ const AvailableHoursPage = () => {
         timeSlotId={modalTimeSlotId}
         unclaim={unclaim}
       />
+      <CreateRequestModal />
     </>
   );
 };
