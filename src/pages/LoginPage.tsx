@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
@@ -12,17 +12,41 @@ type FormValues = {
 
 const LoginPage = () => {
   const { updateToken, updateAdminParishIds, updateName } = useContext(UserContext);
+  const [showLoadingButton, setShowLoadingButton] = useState(false);
   const history = useHistory();
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
   const onSubmit = async ({ emailAddress, password }:FormValues) => {
+    setShowLoadingButton(true);
     await login(emailAddress, password)
       .then(({ data }) => {
         updateAdminParishIds(data.parishAdminAccessIds);
         updateToken(data.access_Token);
         updateName(data.name);
         history.push(appPaths.claimed);
+      }).catch(() => {
+        setShowLoadingButton(false);
       });
+  };
+
+  const renderSubmitButton = () => {
+    if (showLoadingButton) {
+      return (
+        <button className="btn btn-primary" type="button" disabled>
+          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
+          Loading...
+        </button>
+      );
+    }
+
+    return (
+      <button
+        type="submit"
+        className="btn btn-primary"
+      >
+        Submit
+      </button>
+    );
   };
 
   return (
@@ -59,7 +83,7 @@ const LoginPage = () => {
             </div>
           )}
         </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
+        {renderSubmitButton()}
       </form>
     </>
   );
