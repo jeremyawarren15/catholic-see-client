@@ -5,7 +5,9 @@ import HourCard from '../components/HourCard';
 import CreateRequestModal from '../components/modals/CreateRequestModal';
 import UnclaimHourModal from '../components/modals/UnclaimHourModal';
 import UserContext from '../contexts/UserContext';
-import { claimHour, getHours, unclaimHour } from '../service/hoursService';
+import {
+  claimHour, createSubRequest, getHours, unclaimHour,
+} from '../service/hoursService';
 import { Day } from '../types/Day';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import daysOfTheWeek from '../utilities/constants';
@@ -25,8 +27,14 @@ const AvailableHoursPage = () => {
     updateHours();
   };
 
-  const unclaim = async (timeSlotId:number) => {
-    await unclaimHour(token, timeSlotId);
+  const handleConfirmCreateRequest = () => {
+    createSubRequest(token, modalTimeSlotId, new Date('2/2/2021')).then(() => {
+      updateHours();
+    });
+  };
+
+  const handleConfirmUnclaimHour = async () => {
+    await unclaimHour(token, modalTimeSlotId);
     updateHours();
   };
 
@@ -63,6 +71,7 @@ const AvailableHoursPage = () => {
         handleClaimHour={handleClaimHour}
         handleUnclaimHour={setModalTimeSlotId}
         handleCancelSubRequest={() => Error('Should not be able to cancel sub requests from this card.')}
+        handleCreateSubRequest={setModalTimeSlotId}
         showProgress
       />
     )));
@@ -79,10 +88,11 @@ const AvailableHoursPage = () => {
         ))}
       </Accordion>
       <UnclaimHourModal
-        timeSlotId={modalTimeSlotId}
-        unclaim={unclaim}
+        handleConfirmUnclaimHour={handleConfirmUnclaimHour}
       />
-      <CreateRequestModal />
+      <CreateRequestModal
+        handleConfirmCreateRequest={handleConfirmCreateRequest}
+      />
     </>
   );
 };

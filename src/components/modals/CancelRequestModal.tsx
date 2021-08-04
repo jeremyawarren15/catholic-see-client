@@ -2,11 +2,10 @@ import React from 'react';
 import Modal from '../Modal';
 
 type Props = {
-  subRequestId: number,
-  handleCancelRequest: (subRequestId:number) => void
+  handleConfirmCancelRequest: () => void
 }
 
-const CancelRequestModal = ({ subRequestId, handleCancelRequest }:Props) => (
+const CancelRequestModal = ({ handleConfirmCancelRequest }:Props) => (
   <Modal
     id="cancelRequestModal"
     title="Cancel Request"
@@ -24,7 +23,7 @@ const CancelRequestModal = ({ subRequestId, handleCancelRequest }:Props) => (
           type="button"
           className="btn btn-danger"
           data-bs-dismiss="modal"
-          onClick={() => handleCancelRequest(subRequestId)}
+          onClick={() => handleConfirmCancelRequest()}
         >
           Cancel Request
         </button>

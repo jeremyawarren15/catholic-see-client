@@ -4,7 +4,9 @@ import CancelRequestModal from '../components/modals/CancelRequestModal';
 import UnclaimHourModal from '../components/modals/UnclaimHourModal';
 import CreateRequestModal from '../components/modals/CreateRequestModal';
 import UserContext from '../contexts/UserContext';
-import { getClaimedHours, unclaimHour } from '../service/hoursService';
+import {
+  cancelSubRequest, createSubRequest, getClaimedHours, unclaimHour,
+} from '../service/hoursService';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 
 const ClaimedHoursPage = () => {
@@ -23,19 +25,22 @@ const ClaimedHoursPage = () => {
     updateHours();
   }, []);
 
-  const unclaim = () => {
+  const handleConfirmUnclaimHour = () => {
     unclaimHour(token, modalTimeSlotId).then(() => {
       updateHours();
     });
   };
 
-  const handleCancelSubRequest = (subRequestId:number) => {
-    setModalSubRequestId(subRequestId);
+  const handleConfirmCreateRequest = () => {
+    createSubRequest(token, modalTimeSlotId, new Date('2/2/2021')).then(() => {
+      updateHours();
+    });
   };
 
-  const handleCancelRequestModal = (subRequestId:number) => {
-    // ajax call to cancel request
-    updateHours();
+  const handleConfirmCancelRequest = () => {
+    cancelSubRequest(token, modalSubRequestId).then(() => {
+      updateHours();
+    });
   };
 
   return (
@@ -54,18 +59,19 @@ const ClaimedHoursPage = () => {
           parishId={hour.parishId}
           handleUnclaimHour={setModalTimeSlotId}
           handleClaimHour={() => Error('Should not be able to claim on this page')}
-          handleCancelSubRequest={handleCancelSubRequest}
+          handleCreateSubRequest={setModalTimeSlotId}
+          handleCancelSubRequest={setModalSubRequestId}
         />
       ))}
       <UnclaimHourModal
-        timeSlotId={modalTimeSlotId}
-        unclaim={unclaim}
+        handleConfirmUnclaimHour={handleConfirmUnclaimHour}
       />
       <CancelRequestModal
-        subRequestId={modalSubRequestId}
-        handleCancelRequest={handleCancelRequestModal}
+        handleConfirmCancelRequest={handleConfirmCancelRequest}
       />
-      <CreateRequestModal />
+      <CreateRequestModal
+        handleConfirmCreateRequest={handleConfirmCreateRequest}
+      />
     </>
   );
 };

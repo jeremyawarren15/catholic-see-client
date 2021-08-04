@@ -11,8 +11,9 @@ export type HourCardRequirements = {
   minimumAdorers: number,
   parishId: number,
   subRequests?: SubRequestListItem[],
-  showProgress?: boolean
-  handleClaimHour: (timeSlotId:number) => void
-  handleUnclaimHour: (timeSlotId:number) => void
-  handleCancelSubRequest: (subRequestId:number) => void
+  showProgress?: boolean,
+  handleClaimHour: (timeSlotId:number) => void,
+  handleUnclaimHour: (timeSlotId:number) => void,
+  handleCreateSubRequest: (timeSlotId:number) => void,
+  handleCancelSubRequest: (subRequestId:number) => void,
 }
