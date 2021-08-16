@@ -8,7 +8,6 @@ import {
   IconButton,
   LinearProgress,
   Tooltip,
-  Typography,
 } from '@material-ui/core';
 import { AddBox, Cancel, Schedule } from '@material-ui/icons';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -16,6 +15,7 @@ import { HourCardRequirements } from '../types/HourCardRequirements';
 import UserContext from '../contexts/UserContext';
 import getDayString from '../utilities/dayFormatter';
 import getTimeString from '../utilities/timeFormatter';
+import DialogContext from '../contexts/DialogContext';
 
 const HourCard = ({
   timeSlotId,
@@ -34,6 +34,7 @@ const HourCard = ({
   handleCancelSubRequest,
 }: HourCardRequirements) => {
   const { adminParishIds } = useContext(UserContext);
+  const { openUnclaimHourDialog, openCreateSubRequestDialog } = useContext(DialogContext);
 
   const renderSubRequests = () => {
     if (!subRequests) return <></>;
@@ -78,15 +79,15 @@ const HourCard = ({
         <Tooltip title="Unclaim Hour">
           <IconButton
             color="error"
-            onClick={() => handleUnclaimHour(timeSlotId)}
+            onClick={() => openUnclaimHourDialog()}
           >
             <Cancel />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Unclaim Hour">
+        <Tooltip title="Make Sub Request">
           <IconButton
             color="primary"
-            onClick={() => handleCreateSubRequest(timeSlotId)}
+            onClick={() => openCreateSubRequestDialog()}
           >
             <Schedule />
           </IconButton>

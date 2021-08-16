@@ -1,11 +1,10 @@
 import {
-  List, ListItem, ListItemButton, ListItemIcon, ListItemText,
+  List, ListItem, ListItemIcon, ListItemText,
 } from '@material-ui/core';
 import InboxIcon from '@material-ui/icons/Inbox';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import appPaths from '../utilities/appPaths';
-import SidebarLink from './SidebarLink';
 
 const AdorationNav = () => (
   <List>
