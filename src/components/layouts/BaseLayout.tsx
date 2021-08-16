@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { Container, Typography } from '@material-ui/core';
 
 interface Props {
   children?: ReactNode
@@ -6,21 +7,12 @@ interface Props {
 
 function BaseLayout({ children }: Props) {
   return (
-    <>
-      <div className="container">
-        <main role="main" className="pb-3">
-          <h2>Adoration</h2>
-
-          <div>
-            <h4>St. John the Evangelist</h4>
-            <hr />
-            <div className="row">
-              {children}
-            </div>
-          </div>
-        </main>
-      </div>
-    </>
+    <Container>
+      <Typography variant="h3">Adoration</Typography>
+      <Typography variant="h5">St. John the Evangelist</Typography>
+      <hr />
+      {children}
+    </Container>
   );
 }
 

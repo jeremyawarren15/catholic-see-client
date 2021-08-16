@@ -1,22 +1,21 @@
+import {
+  Button, TextField, Typography,
+} from '@material-ui/core';
 import React, { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
+
 import { useHistory } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
 import login from '../service/authService';
 import appPaths from '../utilities/appPaths';
 
-type FormValues = {
-  emailAddress: string,
-  password: string
-}
-
 const LoginPage = () => {
   const { updateToken, updateAdminParishIds, updateName } = useContext(UserContext);
   const [showLoadingButton, setShowLoadingButton] = useState(false);
+  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
   const history = useHistory();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
-  const onSubmit = async ({ emailAddress, password }:FormValues) => {
+  const onSubmit = async () => {
     setShowLoadingButton(true);
     await login(emailAddress, password)
       .then(({ data }) => {
@@ -29,59 +28,42 @@ const LoginPage = () => {
       });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit();
+  };
+
   const renderSubmitButton = () => {
     if (showLoadingButton) {
       return (
-        <button className="btn btn-primary" type="button" disabled>
-          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
-          Loading...
-        </button>
+        <Button variant="contained" disabled>Loading...</Button>
       );
     }
 
     return (
-      <button
-        type="submit"
-        className="btn btn-primary"
-      >
-        Submit
-      </button>
+      <Button type="submit" variant="contained">Submit</Button>
     );
   };
 
   return (
     <>
-      <h2>Login</h2>
-      <hr />
-      <form onSubmit={handleSubmit(onSubmit)} className="col-md-3" noValidate>
-        <div className="mb-3">
-          <label htmlFor="emailAddress" className="form-label">Email address</label>
-          <input
-            type="email"
-            className={`form-control ${errors.emailAddress ? 'is-invalid' : ''}`}
-            id="emailAddress"
-            aria-describedby="emailHelp"
-            {...register('emailAddress', { required: 'Please enter an email address.' })}
+      <Typography variant="h3" style={{ marginBottom: '10px' }}>Login</Typography>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: '10px' }}>
+          <TextField
+            id="username"
+            label="Username"
+            variant="outlined"
+            onChange={(e) => setEmailAddress(e.target.value)}
           />
-          {errors.emailAddress && (
-            <div className="invalid-feedback">
-              {errors.emailAddress.message}
-            </div>
-          )}
         </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input
-            type="password"
-            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+        <div style={{ marginBottom: '10px' }}>
+          <TextField
             id="password"
-            {...register('password', { required: 'Please enter a password.' })}
+            label="Password"
+            variant="outlined"
+            onChange={(e) => setPassword(e.target.value)}
           />
-          {errors.password && (
-            <div className="invalid-feedback">
-              {errors.password.message}
-            </div>
-          )}
         </div>
         {renderSubmitButton()}
       </form>

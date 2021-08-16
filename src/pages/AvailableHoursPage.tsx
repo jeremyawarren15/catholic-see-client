@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import Accordion from '../components/Accordion';
 import AccordionItem from '../components/AccordionItem';
@@ -53,47 +54,34 @@ const AvailableHoursPage = () => {
   const renderHours = (day:Day) => {
     const hoursForDay = getHoursForDay(hours, day.index);
 
-    if (hoursForDay.length < 1) {
-      return <h4 className="text-muted">No hours</h4>;
-    }
-
     return (hoursForDay?.map((hour) => (
-      <HourCard
-        timeSlotId={hour.timeSlotId}
-        key={`${hour.hour} ${hour.day}`}
-        hour={hour.hour}
-        day={hour.day}
-        parishId={hour.parishId}
-        isClaimedByUser={hour.isClaimedByUser}
-        location={hour.location}
-        adorerCount={hour.adorerCount}
-        minimumAdorers={hour.minimumAdorers}
-        handleClaimHour={handleClaimHour}
-        handleUnclaimHour={setModalTimeSlotId}
-        handleCancelSubRequest={() => Error('Should not be able to cancel sub requests from this card.')}
-        handleCreateSubRequest={setModalTimeSlotId}
-        showProgress
-      />
+      <Grid item xs={12} sm={8} md={4}>
+        <HourCard
+          timeSlotId={hour.timeSlotId}
+          key={`${hour.hour} ${hour.day}`}
+          hour={hour.hour}
+          day={hour.day}
+          parishId={hour.parishId}
+          isClaimedByUser={hour.isClaimedByUser}
+          location={hour.location}
+          adorerCount={hour.adorerCount}
+          minimumAdorers={hour.minimumAdorers}
+          handleClaimHour={handleClaimHour}
+          handleUnclaimHour={setModalTimeSlotId}
+          handleCancelSubRequest={() => Error('Should not be able to cancel sub requests from this card.')}
+          handleCreateSubRequest={setModalTimeSlotId}
+          showProgress
+        />
+      </Grid>
     )));
   };
 
-  const id = 'hoursAccordion';
   return (
-    <>
-      <Accordion id={id}>
-        {daysOfTheWeek.map((day) => (
-          <AccordionItem key={day.index} headerText={day.value} parentId={id}>
-            {renderHours(day)}
-          </AccordionItem>
-        ))}
-      </Accordion>
-      <UnclaimHourModal
-        handleConfirmUnclaimHour={handleConfirmUnclaimHour}
-      />
-      <CreateRequestModal
-        handleConfirmCreateRequest={handleConfirmCreateRequest}
-      />
-    </>
+    <Grid container spacing={3}>
+      {daysOfTheWeek.map((day) => (
+        renderHours(day)
+      ))}
+    </Grid>
   );
 };
 

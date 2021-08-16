@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { Grid } from '@material-ui/core';
 import HourCard from '../components/HourCard';
 import CancelRequestModal from '../components/modals/CancelRequestModal';
 import UnclaimHourModal from '../components/modals/UnclaimHourModal';
@@ -25,54 +26,29 @@ const ClaimedHoursPage = () => {
     updateHours();
   }, []);
 
-  const handleConfirmUnclaimHour = () => {
-    unclaimHour(token, modalTimeSlotId).then(() => {
-      updateHours();
-    });
-  };
-
-  const handleConfirmCreateRequest = () => {
-    createSubRequest(token, modalTimeSlotId, new Date('2/2/2021')).then(() => {
-      updateHours();
-    });
-  };
-
-  const handleConfirmCancelRequest = () => {
-    cancelSubRequest(token, modalSubRequestId).then(() => {
-      updateHours();
-    });
-  };
-
   return (
-    <>
+    <Grid container spacing={3}>
       {hours.map((hour) => (
-        <HourCard
-          timeSlotId={hour.timeSlotId}
-          key={hour.timeSlotId}
-          hour={hour.hour}
-          day={hour.day}
-          isClaimedByUser
-          location={hour.location}
-          minimumAdorers={hour.minimumAdorers}
-          adorerCount={hour.adorerCount}
-          subRequests={hour.subRequests}
-          parishId={hour.parishId}
-          handleUnclaimHour={setModalTimeSlotId}
-          handleClaimHour={() => Error('Should not be able to claim on this page')}
-          handleCreateSubRequest={setModalTimeSlotId}
-          handleCancelSubRequest={setModalSubRequestId}
-        />
+        <Grid item xs={12}>
+          <HourCard
+            timeSlotId={hour.timeSlotId}
+            key={hour.timeSlotId}
+            hour={hour.hour}
+            day={hour.day}
+            isClaimedByUser
+            location={hour.location}
+            minimumAdorers={hour.minimumAdorers}
+            adorerCount={hour.adorerCount}
+            subRequests={hour.subRequests}
+            parishId={hour.parishId}
+            handleUnclaimHour={setModalTimeSlotId}
+            handleClaimHour={() => Error('Should not be able to claim on this page')}
+            handleCreateSubRequest={setModalTimeSlotId}
+            handleCancelSubRequest={setModalSubRequestId}
+          />
+        </Grid>
       ))}
-      <UnclaimHourModal
-        handleConfirmUnclaimHour={handleConfirmUnclaimHour}
-      />
-      <CancelRequestModal
-        handleConfirmCancelRequest={handleConfirmCancelRequest}
-      />
-      <CreateRequestModal
-        handleConfirmCreateRequest={handleConfirmCreateRequest}
-      />
-    </>
+    </Grid>
   );
 };
 

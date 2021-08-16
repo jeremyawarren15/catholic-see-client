@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import BaseLayout from './components/layouts/BaseLayout';
+import {
+  Container, Divider, Drawer, Toolbar,
+} from '@material-ui/core';
 import NavBar from './components/NavBar';
-import Sidebar from './components/Sidebar';
 import AdorationNav from './components/AdorationNav';
-import Content from './components/Content';
 import LoginPage from './pages/LoginPage';
 import UserProvider from './providers/UserProvider';
 import HomePage from './pages/HomePage';
@@ -14,50 +14,47 @@ import AuthenticatedRoute from './components/RouteAuthenticator';
 import AvailableHoursPage from './pages/AvailableHoursPage';
 import ClaimedHoursPage from './pages/ClaimedHoursPage';
 
-function App() {
-  type RouteDefinition = {
-    path: string,
-    exact: boolean,
-    authenticated: boolean,
-    sidebar?: React.ReactNode,
-    component: React.ReactNode
-  }
-  const routes:RouteDefinition[] = [
-    {
-      path: appPaths.available,
-      exact: false,
-      authenticated: true,
-      sidebar: <AdorationNav />,
-      component: <AvailableHoursPage />,
-    },
-    {
-      path: appPaths.claimed,
-      exact: false,
-      authenticated: true,
-      sidebar: <AdorationNav />,
-      component: <ClaimedHoursPage />,
-    },
-    {
-      path: appPaths.requests,
-      exact: false,
-      authenticated: true,
-      sidebar: <AdorationNav />,
-      component: <HomePage />,
-    },
-    {
-      path: appPaths.login,
-      exact: false,
-      authenticated: false,
-      component: <LoginPage />,
-    },
-    {
-      path: appPaths.home,
-      exact: true,
-      authenticated: false,
-      component: <HomePage />,
-    },
-  ];
+type RouteDefinition = {
+  path: string,
+  exact: boolean,
+  authenticated: boolean,
+  component: React.ReactNode
+}
 
+const routes:RouteDefinition[] = [
+  {
+    path: appPaths.available,
+    exact: false,
+    authenticated: true,
+    component: <AvailableHoursPage />,
+  },
+  {
+    path: appPaths.claimed,
+    exact: false,
+    authenticated: true,
+    component: <ClaimedHoursPage />,
+  },
+  {
+    path: appPaths.requests,
+    exact: false,
+    authenticated: true,
+    component: <HomePage />,
+  },
+  {
+    path: appPaths.login,
+    exact: false,
+    authenticated: false,
+    component: <LoginPage />,
+  },
+  {
+    path: appPaths.home,
+    exact: true,
+    authenticated: false,
+    component: <HomePage />,
+  },
+];
+
+function App() {
   const getDefault = (route:RouteDefinition) => {
     if (route.authenticated) {
       return (
@@ -66,37 +63,7 @@ function App() {
           path={route.path}
           exact={route.exact}
         >
-          <div className="container">{route.component}</div>
-        </AuthenticatedRoute>
-      );
-    }
-    return (
-      <Route
-        key={route.path}
-        path={route.path}
-        exact={route.exact}
-      >
-        <div className="container">{route.component}</div>
-      </Route>
-    );
-  };
-
-  const getSidebar = (route:RouteDefinition) => {
-    if (route.authenticated) {
-      return (
-        <AuthenticatedRoute
-          key={route.path}
-          path={route.path}
-          exact={route.exact}
-        >
-          <BaseLayout>
-            <Sidebar>
-              {route.sidebar}
-            </Sidebar>
-            <Content>
-              {route.component}
-            </Content>
-          </BaseLayout>
+          {route.component}
         </AuthenticatedRoute>
       );
     }
@@ -107,34 +74,37 @@ function App() {
         path={route.path}
         exact={route.exact}
       >
-        <BaseLayout>
-          <Sidebar>
-            {route.sidebar}
-          </Sidebar>
-          <Content>
-            {route.component}
-          </Content>
-        </BaseLayout>
+        {route.component}
       </Route>
     );
   };
-
-  const registerRoutes = () => routes.map((route) => {
-    if (!route.sidebar) {
-      return getDefault(route);
-    }
-
-    return getSidebar(route);
-  });
 
   return (
     <>
       <UserProvider>
         <Router>
           <NavBar />
-          <Switch>
-            {registerRoutes()}
-          </Switch>
+          <Drawer
+            anchor="left"
+            variant="permanent"
+            sx={{
+              width: 240,
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: 240,
+                boxSizing: 'border-box',
+              },
+            }}
+          >
+            <Toolbar />
+            <Divider />
+            <AdorationNav />
+          </Drawer>
+          <Container sx={{ marginTop: 11 }}>
+            <Switch>
+              {routes.map((route) => getDefault(route))}
+            </Switch>
+          </Container>
         </Router>
       </UserProvider>
     </>

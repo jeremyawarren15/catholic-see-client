@@ -1,4 +1,17 @@
 import React, { useContext } from 'react';
+import {
+  Alert,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  IconButton,
+  LinearProgress,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
+import { AddBox, Cancel, Schedule } from '@material-ui/icons';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import UserContext from '../contexts/UserContext';
 import getDayString from '../utilities/dayFormatter';
@@ -25,42 +38,23 @@ const HourCard = ({
   const renderSubRequests = () => {
     if (!subRequests) return <></>;
 
-    const getListGroupClasses = (isClaimed:boolean) => {
-      if (isClaimed) {
-        return 'list-group-item list-group-item-success d-flex justify-content-between align-items-center';
-      }
-      return 'list-group-item list-group-item-warning d-flex justify-content-between align-items-center';
-    };
-
-    const getListButtonClasses = (isClaimed:boolean) => {
-      if (isClaimed) {
-        return 'btn btn-outline-success btn-sm';
-      }
-      return 'btn btn-outline-warning btn-sm';
-    };
-
     const getText = (date:string, isClaimed:boolean) => `${date} - ${isClaimed ? 'Claimed' : 'Unclaimed'}`;
 
     return (
       <>
-        <h5>Sub Requests</h5>
-        <ul className="list-group mt-3">
-          {subRequests.map((item) => (
-            <li key={item.subRequestId} className={getListGroupClasses(item.hasBeenPickedUp)}>
-              {getText(item.dateOfSubstitution, item.hasBeenPickedUp)}
-              <button
-                className={getListButtonClasses(item.hasBeenPickedUp)}
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#cancelRequestModal"
-                onClick={() => handleCancelSubRequest(item.subRequestId)}
-              >
-                Cancel Request
-
-              </button>
-            </li>
-          ))}
-        </ul>
+        {subRequests.map((item) => (
+          <Alert severity={item.hasBeenPickedUp ? 'success' : 'info'}>
+            {getText(item.dateOfSubstitution, item.hasBeenPickedUp)}
+            <button
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#cancelRequestModal"
+              onClick={() => handleCancelSubRequest(item.subRequestId)}
+            >
+              Cancel Request
+            </button>
+          </Alert>
+        ))}
       </>
     );
   };
@@ -68,38 +62,43 @@ const HourCard = ({
   const renderActionButtons = () => {
     if (!isClaimedByUser) {
       return (
-        <button
-          className="btn btn-sm btn-success"
-          type="button"
-          onClick={() => handleClaimHour(timeSlotId)}
-        >
-          Claim
-        </button>
+        <Tooltip title="Claim Hour">
+          <IconButton
+            color="success"
+            onClick={() => handleClaimHour(timeSlotId)}
+          >
+            <AddBox />
+          </IconButton>
+        </Tooltip>
       );
     }
 
     return (
       <>
-        <button
-          className="btn btn-sm btn-danger me-2"
-          type="button"
-          data-bs-target="#unclaimHourModal"
-          data-bs-toggle="modal"
-          onClick={() => handleUnclaimHour(timeSlotId)}
-        >
-          Unclaim
-        </button>
-        <button
-          className="btn btn-sm btn-primary me-2"
-          type="button"
-          data-bs-toggle="modal"
-          data-bs-target="#createSubRequestModal"
-          onClick={() => handleCreateSubRequest(timeSlotId)}
-        >
-          Request Sub
-        </button>
+        <Tooltip title="Unclaim Hour">
+          <IconButton
+            color="error"
+            onClick={() => handleUnclaimHour(timeSlotId)}
+          >
+            <Cancel />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Unclaim Hour">
+          <IconButton
+            color="primary"
+            onClick={() => handleCreateSubRequest(timeSlotId)}
+          >
+            <Schedule />
+          </IconButton>
+        </Tooltip>
       </>
     );
+  };
+
+  const getProgressColor = (progress:number) => {
+    if (progress >= 100) return 'success';
+    if (isClaimedByUser) return 'primary';
+    return 'error';
   };
 
   const renderProgress = () => {
@@ -110,25 +109,16 @@ const HourCard = ({
       adorerPercentage = (adorerCount * 100.0) / minimumAdorers;
     }
 
-    let progressBarClasses = 'progress-bar bg-success';
-    if (adorerPercentage < 100 && isClaimedByUser) {
-      progressBarClasses = 'progress-bar progress-bar-striped progress-bar-animated';
-    } else if (adorerPercentage < 100 && !isClaimedByUser) {
-      progressBarClasses = 'progress-bar progress-bar-striped progress-bar-animated bg-danger';
-    }
-
     return (
       <>
-        <div className="progress">
-          <div
-            className={progressBarClasses}
-            role="progressbar"
-            style={{ width: `${adorerPercentage}%` }}
-            aria-valuenow={adorerPercentage}
-            aria-valuemin={0}
-            aria-valuemax={minimumAdorers}
-          />
-        </div>
+        <LinearProgress
+          variant="determinate"
+          value={adorerPercentage}
+          color={getProgressColor(adorerPercentage)}
+          sx={{
+            height: 10,
+          }}
+        />
         <p className="text-muted text-right">
           {adorerCount}
           /
@@ -142,35 +132,29 @@ const HourCard = ({
     if (!adminParishIds?.includes(parishId)) return <></>;
 
     return (
-      <a href="google.com" className="btn btn-sm btn-outline-primary">Edit</a>
+      <IconButton aria-label="admin settings">
+        <MoreVertIcon />
+      </IconButton>
     );
   };
 
   const renderHeadingText = () => `${getDayString(day)} ${getTimeString(hour)}`;
 
   return (
-    <div className="col">
-      <div className="card mb-3">
-        <div className="card-header d-flex align-items-center justify-content-between">
-          <div>
-            <h5 className="card-title">
-              {renderHeadingText()}
-            </h5>
-            <h6 className="card-subtitle text-muted">
-              {location}
-            </h6>
-          </div>
-          {renderEditButton()}
-        </div>
-        <div className="card-body">
-          {renderProgress()}
-          {renderSubRequests()}
-          <div className="mt-3">
-            {renderActionButtons()}
-          </div>
-        </div>
-      </div>
-    </div>
+    <Card elevation={4}>
+      <CardHeader
+        title={renderHeadingText()}
+        subheader={location}
+        action={renderEditButton()}
+      />
+      <CardContent>
+        {renderProgress()}
+        {renderSubRequests()}
+      </CardContent>
+      <CardActions disableSpacing>
+        {renderActionButtons()}
+      </CardActions>
+    </Card>
   );
 };
 

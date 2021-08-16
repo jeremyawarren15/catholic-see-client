@@ -1,4 +1,8 @@
 import React, { useContext } from 'react';
+import {
+  AppBar, IconButton, Toolbar, Typography,
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import { NavLink } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
 import appPaths from '../utilities/appPaths';
@@ -16,28 +20,35 @@ function NavBar() {
     return <LoggedIn />;
   };
 
+  const drawerWidth = 240;
   return (
-    <header>
-      <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom mb-3">
-        <div className="container">
-          <NavLink exact to={appPaths.home} activeClassName="active" className="navbar-brand text-light">CatholicSee</NavLink>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target=".navbar-collapse"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-            {renderLoginButtons()}
-          </div>
-        </div>
-      </nav>
-    </header>
+    <AppBar
+      position="fixed"
+      sx={{
+        width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px`,
+      }}
+    >
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+          onClick={() => handleDrawerOpen()}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1 }}
+        >
+          CatholicSee
+        </Typography>
+        {renderLoginButtons()}
+      </Toolbar>
+    </AppBar>
   );
 }
 

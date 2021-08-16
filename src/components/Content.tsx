@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core';
 import React, { ReactNode } from 'react';
 
 interface Props {
@@ -6,9 +7,9 @@ interface Props {
 
 function Content({ children }: Props) {
   return (
-    <div className="col-md-9">
+    <Grid item xs={4}>
       {children}
-    </div>
+    </Grid>
   );
 }
 

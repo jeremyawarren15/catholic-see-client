@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core';
 import React, { ReactNode } from 'react';
 
 interface Props {
@@ -6,11 +7,7 @@ interface Props {
 
 function Sidebar({ children }: Props) {
   return (
-    <div className="col-md-3">
-      <div className="nav nav-pills flex-column">
-        {children}
-      </div>
-    </div>
+    { children }
   );
 }
 
