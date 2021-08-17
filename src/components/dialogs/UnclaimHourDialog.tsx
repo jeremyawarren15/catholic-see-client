@@ -1,40 +1,38 @@
 import {
   Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
 } from '@material-ui/core';
-import React, { useContext } from 'react';
-
-import DialogContext from '../../contexts/DialogContext';
+import React from 'react';
 
 type Props = {
   open: boolean,
-  handleConfirmUnclaimHour: () => void
+  handleConfirmUnclaimHour: () => void,
+  handleClose: () => void
 }
 
-const UnclaimHourDialog = ({ open, handleConfirmUnclaimHour }:Props) => {
-  const { closeDialog } = useContext(DialogContext);
-  return (
-    <Dialog open={open}>
-      <DialogTitle>Unclaim Hour</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Are you sure that you want to unclaim this hour?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={() => closeDialog()}
-        >
-          Close
-        </Button>
-        <Button
-          color="error"
-        >
-          Unclaim
-
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
+const UnclaimHourDialog = ({ open, handleConfirmUnclaimHour, handleClose }:Props) => (
+  <Dialog open={open}>
+    <DialogTitle>Unclaim Hour</DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Are you sure that you want to unclaim this hour?
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button
+        onClick={() => handleClose()}
+      >
+        Close
+      </Button>
+      <Button
+        color="error"
+        onClick={() => {
+          handleConfirmUnclaimHour();
+        }}
+      >
+        Unclaim
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 
 export default UnclaimHourDialog;

@@ -3,14 +3,16 @@ import { Grid } from '@material-ui/core';
 import HourCard from '../components/HourCard';
 import UserContext from '../contexts/UserContext';
 import {
-  cancelSubRequest, createSubRequest, getClaimedHours, unclaimHour,
+  getClaimedHours, unclaimHour,
 } from '../service/hoursService';
 import { HourCardRequirements } from '../types/HourCardRequirements';
+import UnclaimHourDialog from '../components/dialogs/UnclaimHourDialog';
 
 const ClaimedHoursPage = () => {
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
-  const [modalTimeSlotId, setModalTimeSlotId] = useState(0);
-  const [modalSubRequestId, setModalSubRequestId] = useState(0);
+  const [dialogTimeSlotId, setDialogTimeSlotId] = useState(0);
+  const [dialogSubRequestId, setDialogSubRequestId] = useState(0);
+  const [unclaimHourDialogOpen, setUnclaimHourDialogOpen] = useState(false);
   const { token } = useContext(UserContext);
 
   const updateHours = () => {
@@ -19,33 +21,51 @@ const ClaimedHoursPage = () => {
     });
   };
 
+  const handleUnclaimHour = (timeSlotId:number) => {
+    setDialogTimeSlotId(timeSlotId);
+    setUnclaimHourDialogOpen(true);
+  };
+
+  const handleConfirmUnclaimHour = async () => {
+    setUnclaimHourDialogOpen(false);
+    await unclaimHour(token, dialogTimeSlotId);
+    updateHours();
+  };
+
   useEffect(() => {
     updateHours();
   }, []);
 
   return (
-    <Grid container spacing={3}>
-      {hours.map((hour) => (
-        <Grid item xs={12}>
-          <HourCard
-            timeSlotId={hour.timeSlotId}
-            key={hour.timeSlotId}
-            hour={hour.hour}
-            day={hour.day}
-            isClaimedByUser
-            location={hour.location}
-            minimumAdorers={hour.minimumAdorers}
-            adorerCount={hour.adorerCount}
-            subRequests={hour.subRequests}
-            parishId={hour.parishId}
-            handleUnclaimHour={setModalTimeSlotId}
-            handleClaimHour={() => Error('Should not be able to claim on this page')}
-            handleCreateSubRequest={setModalTimeSlotId}
-            handleCancelSubRequest={setModalSubRequestId}
-          />
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <Grid container spacing={3}>
+        {hours.map((hour) => (
+          <Grid item xs={12}>
+            <HourCard
+              timeSlotId={hour.timeSlotId}
+              key={hour.timeSlotId}
+              hour={hour.hour}
+              day={hour.day}
+              isClaimedByUser
+              location={hour.location}
+              minimumAdorers={hour.minimumAdorers}
+              adorerCount={hour.adorerCount}
+              subRequests={hour.subRequests}
+              parishId={hour.parishId}
+              handleUnclaimHour={handleUnclaimHour}
+              handleClaimHour={() => Error('Should not be able to claim on this page')}
+              handleCreateSubRequest={setDialogTimeSlotId}
+              handleCancelSubRequest={setDialogSubRequestId}
+            />
+          </Grid>
+        ))}
+      </Grid>
+      <UnclaimHourDialog
+        open={unclaimHourDialogOpen}
+        handleConfirmUnclaimHour={handleConfirmUnclaimHour}
+        handleClose={() => setUnclaimHourDialogOpen(false)}
+      />
+    </>
   );
 };
 

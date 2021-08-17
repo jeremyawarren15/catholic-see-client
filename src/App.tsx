@@ -13,9 +13,6 @@ import appPaths from './utilities/appPaths';
 import AuthenticatedRoute from './components/RouteAuthenticator';
 import AvailableHoursPage from './pages/AvailableHoursPage';
 import ClaimedHoursPage from './pages/ClaimedHoursPage';
-import CancelRequestDialog from './components/dialogs/CancelRequestDialog';
-import DialogManager from './components/DialogManager';
-import DialogProvider from './providers/DialogProvider';
 
 type RouteDefinition = {
   path: string,
@@ -85,33 +82,30 @@ function App() {
   return (
     <>
       <UserProvider>
-        <DialogProvider>
-          <Router>
-            <NavBar />
-            <Drawer
-              anchor="left"
-              variant="permanent"
-              sx={{
+        <Router>
+          <NavBar />
+          <Drawer
+            anchor="left"
+            variant="permanent"
+            sx={{
+              width: 240,
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
                 width: 240,
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
-                  width: 240,
-                  boxSizing: 'border-box',
-                },
-              }}
-            >
-              <Toolbar />
-              <Divider />
-              <AdorationNav />
-            </Drawer>
-            <Container sx={{ marginTop: 11 }}>
-              <Switch>
-                {routes.map((route) => getDefault(route))}
-              </Switch>
-            </Container>
-          </Router>
-          <DialogManager />
-        </DialogProvider>
+                boxSizing: 'border-box',
+              },
+            }}
+          >
+            <Toolbar />
+            <Divider />
+            <AdorationNav />
+          </Drawer>
+          <Container sx={{ marginTop: 11 }}>
+            <Switch>
+              {routes.map((route) => getDefault(route))}
+            </Switch>
+          </Container>
+        </Router>
       </UserProvider>
     </>
   );

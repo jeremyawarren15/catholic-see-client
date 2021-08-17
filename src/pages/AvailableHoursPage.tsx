@@ -1,5 +1,6 @@
 import { Grid } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
+import UnclaimHourDialog from '../components/dialogs/UnclaimHourDialog';
 import HourCard from '../components/HourCard';
 import UserContext from '../contexts/UserContext';
 import {
@@ -13,6 +14,7 @@ const AvailableHoursPage = () => {
   const [modalTimeSlotId, setModalTimeSlotId] = useState<number>(0);
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
   const { token } = useContext(UserContext);
+  const [unclaimHourDialogOpen, setUnclaimHourDialogOpen] = useState<boolean>(false);
 
   const updateHours = async () => {
     const { data } = await getHours(token);
@@ -30,7 +32,13 @@ const AvailableHoursPage = () => {
     });
   };
 
+  const handleUnclaimHour = (timeSlotId:number) => {
+    setUnclaimHourDialogOpen(true);
+    setModalTimeSlotId(timeSlotId);
+  };
+
   const handleConfirmUnclaimHour = async () => {
+    setUnclaimHourDialogOpen(false);
     await unclaimHour(token, modalTimeSlotId);
     updateHours();
   };
@@ -63,7 +71,7 @@ const AvailableHoursPage = () => {
           adorerCount={hour.adorerCount}
           minimumAdorers={hour.minimumAdorers}
           handleClaimHour={handleClaimHour}
-          handleUnclaimHour={setModalTimeSlotId}
+          handleUnclaimHour={handleUnclaimHour}
           handleCancelSubRequest={() => Error('Should not be able to cancel sub requests from this card.')}
           handleCreateSubRequest={setModalTimeSlotId}
           showProgress
@@ -73,11 +81,18 @@ const AvailableHoursPage = () => {
   };
 
   return (
-    <Grid container spacing={3}>
-      {daysOfTheWeek.map((day) => (
-        renderHours(day)
-      ))}
-    </Grid>
+    <>
+      <Grid container spacing={3}>
+        {daysOfTheWeek.map((day) => (
+          renderHours(day)
+        ))}
+      </Grid>
+      <UnclaimHourDialog
+        open={unclaimHourDialogOpen}
+        handleClose={() => setUnclaimHourDialogOpen(false)}
+        handleConfirmUnclaimHour={handleConfirmUnclaimHour}
+      />
+    </>
   );
 };
 

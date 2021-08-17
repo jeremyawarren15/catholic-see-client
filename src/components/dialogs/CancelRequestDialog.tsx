@@ -1,37 +1,35 @@
 import {
   Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
 } from '@material-ui/core';
-import React, { useContext } from 'react';
-
-import DialogContext from '../../contexts/DialogContext';
+import React from 'react';
 
 type Props = {
   open: boolean,
-  handleConfirmCancelRequest: () => void
+  handleConfirmCancelRequest: () => void,
+  handleClose: () => void
 }
 
-const CancelRequestDialog = ({ open, handleConfirmCancelRequest }:Props) => {
-  const { closeDialog } = useContext(DialogContext);
-
-  return (
-    <Dialog open={open}>
-      <DialogTitle>Cancel Request</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Are you sure that you want to cancel this sub request?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={() => closeDialog()}
-        >
-          Close
-
-        </Button>
-        <Button>Cancel Request</Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
+const CancelRequestDialog = ({ open, handleConfirmCancelRequest, handleClose }:Props) => (
+  <Dialog open={open}>
+    <DialogTitle>Cancel Request</DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Are you sure that you want to cancel this sub request?
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button
+        onClick={() => handleClose()}
+      >
+        Close
+      </Button>
+      <Button
+        onClick={() => handleConfirmCancelRequest()}
+      >
+        Cancel Request
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 
 export default CancelRequestDialog;

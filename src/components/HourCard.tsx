@@ -15,7 +15,6 @@ import { HourCardRequirements } from '../types/HourCardRequirements';
 import UserContext from '../contexts/UserContext';
 import getDayString from '../utilities/dayFormatter';
 import getTimeString from '../utilities/timeFormatter';
-import DialogContext from '../contexts/DialogContext';
 
 const HourCard = ({
   timeSlotId,
@@ -34,7 +33,6 @@ const HourCard = ({
   handleCancelSubRequest,
 }: HourCardRequirements) => {
   const { adminParishIds } = useContext(UserContext);
-  const { openUnclaimHourDialog, openCreateSubRequestDialog } = useContext(DialogContext);
 
   const renderSubRequests = () => {
     if (!subRequests) return <></>;
@@ -79,7 +77,7 @@ const HourCard = ({
         <Tooltip title="Unclaim Hour">
           <IconButton
             color="error"
-            onClick={() => openUnclaimHourDialog()}
+            onClick={() => handleUnclaimHour(timeSlotId)}
           >
             <Cancel />
           </IconButton>
@@ -87,7 +85,7 @@ const HourCard = ({
         <Tooltip title="Make Sub Request">
           <IconButton
             color="primary"
-            onClick={() => openCreateSubRequestDialog()}
+            onClick={() => handleCreateSubRequest(timeSlotId)}
           >
             <Schedule />
           </IconButton>
