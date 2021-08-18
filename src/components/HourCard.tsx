@@ -9,6 +9,7 @@ import {
   IconButton,
   LinearProgress,
   Tooltip,
+  Typography,
 } from '@material-ui/core';
 import { AddBox, Cancel, Schedule } from '@material-ui/icons';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -36,7 +37,7 @@ const HourCard = ({
   const { adminParishIds } = useContext(UserContext);
 
   const renderSubRequests = () => {
-    if (!subRequests) return <></>;
+    if (!subRequests?.length) return (<Typography variant="h6">No sub requests for this hour</Typography>);
 
     const getText = (date:string, isClaimed:boolean) => `${date} - ${isClaimed ? 'Claimed' : 'Unclaimed'}`;
 

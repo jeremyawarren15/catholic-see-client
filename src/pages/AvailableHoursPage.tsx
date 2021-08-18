@@ -92,7 +92,7 @@ const AvailableHoursPage = () => {
 
   return (
     <>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} sx={{ marginBottom: '20px' }}>
         {daysOfTheWeek.map((day) => (
           renderHours(day)
         ))}

@@ -6,15 +6,25 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import appPaths from '../utilities/appPaths';
 
-const AdorationNav = () => (
+const AdorationNav = ({ handleActionCallback }) => (
   <List>
-    <ListItem button component={NavLink} to={appPaths.claimed}>
+    <ListItem
+      button
+      component={NavLink}
+      to={appPaths.claimed}
+      onClick={(e) => handleActionCallback()}
+    >
       <ListItemIcon>
         <InboxIcon />
       </ListItemIcon>
       <ListItemText primary="Claimed Hours" />
     </ListItem>
-    <ListItem button component={NavLink} to={appPaths.available}>
+    <ListItem
+      button
+      component={NavLink}
+      to={appPaths.available}
+      onClick={(e) => handleActionCallback()}
+    >
       <ListItemIcon>
         <InboxIcon />
       </ListItemIcon>

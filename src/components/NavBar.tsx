@@ -1,13 +1,17 @@
-import React, { useContext } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import {
-  AppBar, IconButton, Toolbar, Typography,
+  AppBar, IconButton, Theme, Toolbar, Typography,
 } from '@material-ui/core';
+import SxProps from '@material-ui/system/styleFunctionSx/styleFunctionSx'
 import MenuIcon from '@material-ui/icons/Menu';
 import UserContext from '../contexts/UserContext';
 import LoggedIn from './LoggedIn';
 import LoggedOut from './LoggedOut';
 
-function NavBar() {
+type Props = {
+}
+
+function NavBar({}:Props) {
   const { token } = useContext(UserContext);
 
   const renderLoginButtons = () => {
