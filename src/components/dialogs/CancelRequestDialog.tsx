@@ -24,6 +24,7 @@ const CancelRequestDialog = ({ open, handleConfirmCancelRequest, handleClose }:P
         Close
       </Button>
       <Button
+        color="error"
         onClick={() => handleConfirmCancelRequest()}
       >
         Cancel Request

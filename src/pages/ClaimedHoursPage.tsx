@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 import HourCard from '../components/HourCard';
 import UserContext from '../contexts/UserContext';
 import {
+  cancelSubRequest,
   createSubRequest,
   getClaimedHours,
   unclaimHour,
@@ -10,6 +11,7 @@ import {
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import UnclaimHourDialog from '../components/dialogs/UnclaimHourDialog';
 import CreateRequestDialog from '../components/dialogs/CreateRequestDialog';
+import CancelRequestDialog from '../components/dialogs/CancelRequestDialog';
 
 const ClaimedHoursPage = () => {
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
@@ -18,6 +20,7 @@ const ClaimedHoursPage = () => {
   const [dialogDay, setDialogDay] = useState<number>(0);
   const [unclaimHourDialogOpen, setUnclaimHourDialogOpen] = useState(false);
   const [createRequestDialogOpen, setRequestDialogOpen] = useState(false);
+  const [cancelRequestDialogOpen, setCancelRequestDialogOpen] = useState(false);
   const { token } = useContext(UserContext);
 
   const updateHours = () => {
@@ -50,6 +53,18 @@ const ClaimedHoursPage = () => {
     });
   };
 
+  const handleCancelRequest = (subRequestId:number) => {
+    setDialogSubRequestId(subRequestId);
+    setCancelRequestDialogOpen(true);
+  };
+
+  const handleConfirmCancelRequest = () => {
+    cancelSubRequest(token, dialogSubRequestId).then(() => {
+      updateHours();
+      setCancelRequestDialogOpen(false);
+    });
+  };
+
   useEffect(() => {
     updateHours();
   }, []);
@@ -73,7 +88,7 @@ const ClaimedHoursPage = () => {
               handleUnclaimHour={handleUnclaimHour}
               handleClaimHour={() => Error('Should not be able to claim on this page')}
               handleCreateSubRequest={handleCreateRequest}
-              handleCancelSubRequest={setDialogSubRequestId}
+              handleCancelSubRequest={handleCancelRequest}
             />
           </Grid>
         ))}
@@ -88,6 +103,11 @@ const ClaimedHoursPage = () => {
         handleClose={() => setRequestDialogOpen(false)}
         handleConfirmCreateRequest={handleConfirmCreateRequest}
         day={dialogDay}
+      />
+      <CancelRequestDialog
+        open={cancelRequestDialogOpen}
+        handleClose={() => setCancelRequestDialogOpen(false)}
+        handleConfirmCancelRequest={handleConfirmCancelRequest}
       />
     </>
   );

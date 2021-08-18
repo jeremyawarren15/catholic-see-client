@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import {
   Alert,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -42,16 +43,19 @@ const HourCard = ({
     return (
       <>
         {subRequests.map((item) => (
-          <Alert severity={item.hasBeenPickedUp ? 'success' : 'info'}>
+          <Alert
+            severity={item.hasBeenPickedUp ? 'success' : 'info'}
+            action={(
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => handleCancelSubRequest(item.subRequestId)}
+              >
+                Cancel Request
+              </Button>
+          )}
+          >
             {getText(item.dateOfSubstitution, item.hasBeenPickedUp)}
-            <button
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#cancelRequestModal"
-              onClick={() => handleCancelSubRequest(item.subRequestId)}
-            >
-              Cancel Request
-            </button>
           </Alert>
         ))}
       </>
