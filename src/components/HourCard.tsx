@@ -85,7 +85,7 @@ const HourCard = ({
         <Tooltip title="Make Sub Request">
           <IconButton
             color="primary"
-            onClick={() => handleCreateSubRequest(timeSlotId)}
+            onClick={() => handleCreateSubRequest(timeSlotId, day)}
           >
             <Schedule />
           </IconButton>
@@ -131,9 +131,11 @@ const HourCard = ({
     if (!adminParishIds?.includes(parishId)) return <></>;
 
     return (
-      <IconButton aria-label="admin settings">
-        <MoreVertIcon />
-      </IconButton>
+      <Tooltip title="Edit Hour">
+        <IconButton aria-label="admin settings">
+          <MoreVertIcon />
+        </IconButton>
+      </Tooltip>
     );
   };
 

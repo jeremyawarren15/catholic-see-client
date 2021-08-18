@@ -1,5 +1,6 @@
 import { Grid } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
+import CreateRequestDialog from '../components/dialogs/CreateRequestDialog';
 import UnclaimHourDialog from '../components/dialogs/UnclaimHourDialog';
 import HourCard from '../components/HourCard';
 import UserContext from '../contexts/UserContext';
@@ -15,6 +16,8 @@ const AvailableHoursPage = () => {
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
   const { token } = useContext(UserContext);
   const [unclaimHourDialogOpen, setUnclaimHourDialogOpen] = useState<boolean>(false);
+  const [createRequestDialogOpen, setCreateRequestDialogOpen] = useState<boolean>(false);
+  const [dialogDay, setDialogDay] = useState<number>(0);
 
   const updateHours = async () => {
     const { data } = await getHours(token);
@@ -26,9 +29,16 @@ const AvailableHoursPage = () => {
     updateHours();
   };
 
-  const handleConfirmCreateRequest = () => {
-    createSubRequest(token, modalTimeSlotId, new Date('2/2/2021')).then(() => {
+  const handleCreateRequest = (timeSlotId:number, day:number) => {
+    setModalTimeSlotId(timeSlotId);
+    setDialogDay(day);
+    setCreateRequestDialogOpen(true);
+  };
+
+  const handleConfirmCreateRequest = (chosenDate:Date) => {
+    createSubRequest(token, modalTimeSlotId, chosenDate).then(() => {
       updateHours();
+      setCreateRequestDialogOpen(false);
     });
   };
 
@@ -73,7 +83,7 @@ const AvailableHoursPage = () => {
           handleClaimHour={handleClaimHour}
           handleUnclaimHour={handleUnclaimHour}
           handleCancelSubRequest={() => Error('Should not be able to cancel sub requests from this card.')}
-          handleCreateSubRequest={setModalTimeSlotId}
+          handleCreateSubRequest={handleCreateRequest}
           showProgress
         />
       </Grid>
@@ -91,6 +101,12 @@ const AvailableHoursPage = () => {
         open={unclaimHourDialogOpen}
         handleClose={() => setUnclaimHourDialogOpen(false)}
         handleConfirmUnclaimHour={handleConfirmUnclaimHour}
+      />
+      <CreateRequestDialog
+        open={createRequestDialogOpen}
+        handleClose={() => setCreateRequestDialogOpen(false)}
+        handleConfirmCreateRequest={handleConfirmCreateRequest}
+        day={dialogDay}
       />
     </>
   );

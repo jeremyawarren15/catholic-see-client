@@ -14,6 +14,6 @@ export type HourCardRequirements = {
   showProgress?: boolean,
   handleClaimHour: (timeSlotId:number) => void,
   handleUnclaimHour: (timeSlotId:number) => void,
-  handleCreateSubRequest: (timeSlotId:number) => void,
+  handleCreateSubRequest: (timeSlotId:number, day:number) => void,
   handleCancelSubRequest: (subRequestId:number) => void,
 }

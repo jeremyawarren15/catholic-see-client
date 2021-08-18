@@ -2,8 +2,11 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {
-  Container, Divider, Drawer, Toolbar,
+  Container, createTheme, CssBaseline, Divider, Drawer, ThemeProvider, Toolbar,
 } from '@material-ui/core';
+import { pink, teal } from '@material-ui/core/colors';
+import { LocalizationProvider } from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import NavBar from './components/NavBar';
 import AdorationNav from './components/AdorationNav';
 import LoginPage from './pages/LoginPage';
@@ -79,35 +82,46 @@ function App() {
     );
   };
 
+  const theme = createTheme({
+    palette: {
+      primary: teal,
+      secondary: pink,
+      mode: 'light',
+    },
+  });
+
   return (
-    <>
-      <UserProvider>
-        <Router>
-          <NavBar />
-          <Drawer
-            anchor="left"
-            variant="permanent"
-            sx={{
-              width: 240,
-              flexShrink: 0,
-              '& .MuiDrawer-paper': {
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <UserProvider>
+          <Router>
+            <NavBar />
+            <Drawer
+              anchor="left"
+              variant="permanent"
+              sx={{
                 width: 240,
-                boxSizing: 'border-box',
-              },
-            }}
-          >
-            <Toolbar />
-            <Divider />
-            <AdorationNav />
-          </Drawer>
-          <Container sx={{ marginTop: 11 }}>
-            <Switch>
-              {routes.map((route) => getDefault(route))}
-            </Switch>
-          </Container>
-        </Router>
-      </UserProvider>
-    </>
+                flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                  width: 240,
+                  boxSizing: 'border-box',
+                },
+              }}
+            >
+              <Toolbar />
+              <Divider />
+              <AdorationNav />
+            </Drawer>
+            <Container sx={{ marginTop: 11 }}>
+              <Switch>
+                {routes.map((route) => getDefault(route))}
+              </Switch>
+            </Container>
+          </Router>
+        </UserProvider>
+      </LocalizationProvider>
+    </ThemeProvider>
   );
 }
 

@@ -3,16 +3,21 @@ import { Grid } from '@material-ui/core';
 import HourCard from '../components/HourCard';
 import UserContext from '../contexts/UserContext';
 import {
-  getClaimedHours, unclaimHour,
+  createSubRequest,
+  getClaimedHours,
+  unclaimHour,
 } from '../service/hoursService';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import UnclaimHourDialog from '../components/dialogs/UnclaimHourDialog';
+import CreateRequestDialog from '../components/dialogs/CreateRequestDialog';
 
 const ClaimedHoursPage = () => {
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
   const [dialogTimeSlotId, setDialogTimeSlotId] = useState(0);
   const [dialogSubRequestId, setDialogSubRequestId] = useState(0);
+  const [dialogDay, setDialogDay] = useState<number>(0);
   const [unclaimHourDialogOpen, setUnclaimHourDialogOpen] = useState(false);
+  const [createRequestDialogOpen, setRequestDialogOpen] = useState(false);
   const { token } = useContext(UserContext);
 
   const updateHours = () => {
@@ -30,6 +35,19 @@ const ClaimedHoursPage = () => {
     setUnclaimHourDialogOpen(false);
     await unclaimHour(token, dialogTimeSlotId);
     updateHours();
+  };
+
+  const handleCreateRequest = (timeSlotId:number, day:number) => {
+    setDialogTimeSlotId(timeSlotId);
+    setDialogDay(day);
+    setRequestDialogOpen(true);
+  };
+
+  const handleConfirmCreateRequest = (chosenDate:Date) => {
+    createSubRequest(token, dialogTimeSlotId, chosenDate).then(() => {
+      updateHours();
+      setRequestDialogOpen(false);
+    });
   };
 
   useEffect(() => {
@@ -54,7 +72,7 @@ const ClaimedHoursPage = () => {
               parishId={hour.parishId}
               handleUnclaimHour={handleUnclaimHour}
               handleClaimHour={() => Error('Should not be able to claim on this page')}
-              handleCreateSubRequest={setDialogTimeSlotId}
+              handleCreateSubRequest={handleCreateRequest}
               handleCancelSubRequest={setDialogSubRequestId}
             />
           </Grid>
@@ -64,6 +82,12 @@ const ClaimedHoursPage = () => {
         open={unclaimHourDialogOpen}
         handleConfirmUnclaimHour={handleConfirmUnclaimHour}
         handleClose={() => setUnclaimHourDialogOpen(false)}
+      />
+      <CreateRequestDialog
+        open={createRequestDialogOpen}
+        handleClose={() => setRequestDialogOpen(false)}
+        handleConfirmCreateRequest={handleConfirmCreateRequest}
+        day={dialogDay}
       />
     </>
   );

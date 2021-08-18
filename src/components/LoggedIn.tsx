@@ -7,7 +7,7 @@ function LoggedIn() {
   return (
     <>
       <Button color="inherit">{name}</Button>
-      <Button color="inherit">Logout</Button>
+      <Button color="inherit" onClick={() => logOut()}>Logout</Button>
     </>
   );
 }
