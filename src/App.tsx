@@ -15,6 +15,7 @@ import AuthenticatedRoute from './components/RouteAuthenticator';
 import AvailableHoursPage from './pages/AvailableHoursPage';
 import ClaimedHoursPage from './pages/ClaimedHoursPage';
 import ResponsiveDrawerLayout from './components/layouts/ResponsiveDrawerLayout';
+import SignUpPage from './pages/SignUpPage';
 
 type RouteDefinition = {
   path: string,
@@ -47,6 +48,12 @@ const routes:RouteDefinition[] = [
     exact: false,
     authenticated: false,
     component: <LoginPage />,
+  },
+  {
+    path: '/register',
+    exact: false,
+    authenticated: false,
+    component: <SignUpPage />,
   },
   {
     path: appPaths.home,
