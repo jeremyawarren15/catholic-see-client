@@ -2,13 +2,11 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {
-  Container, createTheme, CssBaseline, Divider, Drawer, ThemeProvider, Toolbar,
+  Container, createTheme, CssBaseline, ThemeProvider,
 } from '@material-ui/core';
 import { pink, teal } from '@material-ui/core/colors';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import NavBar from './components/NavBar';
-import AdorationNav from './components/AdorationNav';
 import LoginPage from './pages/LoginPage';
 import UserProvider from './providers/UserProvider';
 import HomePage from './pages/HomePage';

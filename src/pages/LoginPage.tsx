@@ -1,7 +1,7 @@
 import {
   Avatar,
   Box,
-  Button, Checkbox, Container, FormControlLabel, Grid, Link, TextField, Typography,
+  Button, TextField, Typography,
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import React, { useContext, useState } from 'react';
@@ -13,39 +13,23 @@ import appPaths from '../utilities/appPaths';
 
 const LoginPage = () => {
   const { updateToken, updateAdminParishIds, updateName } = useContext(UserContext);
-  const [showLoadingButton, setShowLoadingButton] = useState(false);
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
 
   const onSubmit = async () => {
-    setShowLoadingButton(true);
     login(emailAddress, password)
       .then(({ data }) => {
         updateAdminParishIds(data.parishAdminAccessIds);
         updateToken(data.access_Token);
         updateName(data.name);
         history.push(appPaths.claimed);
-      }).catch(() => {
-        setShowLoadingButton(false);
       });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit();
-  };
-
-  const renderSubmitButton = () => {
-    if (showLoadingButton) {
-      return (
-        <Button variant="contained" disabled>Loading...</Button>
-      );
-    }
-
-    return (
-      <Button type="submit" variant="contained">Submit</Button>
-    );
   };
 
   return (
