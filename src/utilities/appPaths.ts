@@ -4,6 +4,7 @@ const appPaths = {
   claimed: '/claim',
   login: '/login',
   requests: '/requests',
+  register: '/register',
 };
 
 export default appPaths;

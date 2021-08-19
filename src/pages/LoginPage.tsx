@@ -1,91 +1,87 @@
+import {
+  Avatar,
+  Box,
+  Button, Container, TextField, Typography,
+} from '@material-ui/core';
+import LockIcon from '@material-ui/icons/Lock';
 import React, { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
+
 import { useHistory } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
 import login from '../service/authService';
 import appPaths from '../utilities/appPaths';
 
-type FormValues = {
-  emailAddress: string,
-  password: string
-}
-
 const LoginPage = () => {
   const { updateToken, updateAdminParishIds, updateName } = useContext(UserContext);
-  const [showLoadingButton, setShowLoadingButton] = useState(false);
+  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
   const history = useHistory();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
-  const onSubmit = async ({ emailAddress, password }:FormValues) => {
-    setShowLoadingButton(true);
-    await login(emailAddress, password)
+  const onSubmit = async () => {
+    login(emailAddress, password)
       .then(({ data }) => {
         updateAdminParishIds(data.parishAdminAccessIds);
         updateToken(data.access_Token);
         updateName(data.name);
         history.push(appPaths.claimed);
-      }).catch(() => {
-        setShowLoadingButton(false);
       });
   };
 
-  const renderSubmitButton = () => {
-    if (showLoadingButton) {
-      return (
-        <button className="btn btn-primary" type="button" disabled>
-          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
-          Loading...
-        </button>
-      );
-    }
-
-    return (
-      <button
-        type="submit"
-        className="btn btn-primary"
-      >
-        Submit
-      </button>
-    );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit();
   };
 
   return (
-    <>
-      <h2>Login</h2>
-      <hr />
-      <form onSubmit={handleSubmit(onSubmit)} className="col-md-3" noValidate>
-        <div className="mb-3">
-          <label htmlFor="emailAddress" className="form-label">Email address</label>
-          <input
-            type="email"
-            className={`form-control ${errors.emailAddress ? 'is-invalid' : ''}`}
-            id="emailAddress"
-            aria-describedby="emailHelp"
-            {...register('emailAddress', { required: 'Please enter an email address.' })}
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, backgroundColor: 'secondary.main' }}>
+          <LockIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onChange={(e) => setEmailAddress(e.target.value)}
           />
-          {errors.emailAddress && (
-            <div className="invalid-feedback">
-              {errors.emailAddress.message}
-            </div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
             type="password"
-            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
             id="password"
-            {...register('password', { required: 'Please enter a password.' })}
+            autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
-          {errors.password && (
-            <div className="invalid-feedback">
-              {errors.password.message}
-            </div>
-          )}
-        </div>
-        {renderSubmitButton()}
-      </form>
-    </>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 };
 

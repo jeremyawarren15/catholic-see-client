@@ -1,11 +1,17 @@
-import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { ReactNode, useContext } from 'react';
+import {
+  AppBar, IconButton, Theme, Toolbar, Typography,
+} from '@material-ui/core';
+import SxProps from '@material-ui/system/styleFunctionSx/styleFunctionSx'
+import MenuIcon from '@material-ui/icons/Menu';
 import UserContext from '../contexts/UserContext';
-import appPaths from '../utilities/appPaths';
 import LoggedIn from './LoggedIn';
 import LoggedOut from './LoggedOut';
 
-function NavBar() {
+type Props = {
+}
+
+function NavBar({}:Props) {
   const { token } = useContext(UserContext);
 
   const renderLoginButtons = () => {
@@ -16,28 +22,34 @@ function NavBar() {
     return <LoggedIn />;
   };
 
+  const drawerWidth = 240;
   return (
-    <header>
-      <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom mb-3">
-        <div className="container">
-          <NavLink exact to={appPaths.home} activeClassName="active" className="navbar-brand text-light">CatholicSee</NavLink>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target=".navbar-collapse"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-            {renderLoginButtons()}
-          </div>
-        </div>
-      </nav>
-    </header>
+    <AppBar
+      position="fixed"
+      sx={{
+        width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px`,
+      }}
+    >
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1 }}
+        >
+          CatholicSee
+        </Typography>
+        {renderLoginButtons()}
+      </Toolbar>
+    </AppBar>
   );
 }
 

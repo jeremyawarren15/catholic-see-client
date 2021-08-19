@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import BaseLayout from './components/layouts/BaseLayout';
-import NavBar from './components/NavBar';
-import Sidebar from './components/Sidebar';
-import AdorationNav from './components/AdorationNav';
-import Content from './components/Content';
+import {
+  Container, createTheme, CssBaseline, ThemeProvider,
+} from '@material-ui/core';
+import { pink, teal } from '@material-ui/core/colors';
+import { LocalizationProvider } from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LoginPage from './pages/LoginPage';
 import UserProvider from './providers/UserProvider';
 import HomePage from './pages/HomePage';
@@ -13,131 +14,120 @@ import appPaths from './utilities/appPaths';
 import AuthenticatedRoute from './components/RouteAuthenticator';
 import AvailableHoursPage from './pages/AvailableHoursPage';
 import ClaimedHoursPage from './pages/ClaimedHoursPage';
+import ResponsiveDrawerLayout from './components/layouts/ResponsiveDrawerLayout';
+import NoSidebarLayout from './components/layouts/NoSidebarLayout';
+import SignUpPage from './pages/SignUpPage';
+import SubRequestsPage from './pages/SubRequestsPage';
+
+type RouteDefinition = {
+  path: string,
+  exact: boolean,
+  authenticated: boolean,
+  sidebar: boolean,
+  component: React.ReactNode
+}
+
+const routes:RouteDefinition[] = [
+  {
+    path: appPaths.available,
+    exact: false,
+    authenticated: true,
+    sidebar: true,
+    component: <AvailableHoursPage />,
+  },
+  {
+    path: appPaths.claimed,
+    exact: false,
+    authenticated: true,
+    sidebar: true,
+    component: <ClaimedHoursPage />,
+  },
+  {
+    path: appPaths.requests,
+    exact: false,
+    authenticated: true,
+    sidebar: true,
+    component: <SubRequestsPage />,
+  },
+  {
+    path: appPaths.login,
+    exact: false,
+    authenticated: false,
+    sidebar: false,
+    component: <LoginPage />,
+  },
+  {
+    path: appPaths.register,
+    exact: false,
+    authenticated: false,
+    sidebar: false,
+    component: <SignUpPage />,
+  },
+  {
+    path: appPaths.home,
+    exact: true,
+    authenticated: false,
+    sidebar: false,
+    component: <HomePage />,
+  },
+];
 
 function App() {
-  type RouteDefinition = {
-    path: string,
-    exact: boolean,
-    authenticated: boolean,
-    sidebar?: React.ReactNode,
-    component: React.ReactNode
-  }
-  const routes:RouteDefinition[] = [
-    {
-      path: appPaths.available,
-      exact: false,
-      authenticated: true,
-      sidebar: <AdorationNav />,
-      component: <AvailableHoursPage />,
-    },
-    {
-      path: appPaths.claimed,
-      exact: false,
-      authenticated: true,
-      sidebar: <AdorationNav />,
-      component: <ClaimedHoursPage />,
-    },
-    {
-      path: appPaths.requests,
-      exact: false,
-      authenticated: true,
-      sidebar: <AdorationNav />,
-      component: <HomePage />,
-    },
-    {
-      path: appPaths.login,
-      exact: false,
-      authenticated: false,
-      component: <LoginPage />,
-    },
-    {
-      path: appPaths.home,
-      exact: true,
-      authenticated: false,
-      component: <HomePage />,
-    },
-  ];
-
-  const getDefault = (route:RouteDefinition) => {
-    if (route.authenticated) {
-      return (
-        <AuthenticatedRoute
-          key={route.path}
-          path={route.path}
-          exact={route.exact}
-        >
-          <div className="container">{route.component}</div>
-        </AuthenticatedRoute>
-      );
+  const getRouteComponent = (authenticationRequired:boolean) => {
+    if (authenticationRequired) {
+      return AuthenticatedRoute;
     }
-    return (
-      <Route
-        key={route.path}
-        path={route.path}
-        exact={route.exact}
-      >
-        <div className="container">{route.component}</div>
-      </Route>
-    );
+
+    return Route;
   };
 
-  const getSidebar = (route:RouteDefinition) => {
-    if (route.authenticated) {
-      return (
-        <AuthenticatedRoute
-          key={route.path}
-          path={route.path}
-          exact={route.exact}
-        >
-          <BaseLayout>
-            <Sidebar>
-              {route.sidebar}
-            </Sidebar>
-            <Content>
-              {route.component}
-            </Content>
-          </BaseLayout>
-        </AuthenticatedRoute>
-      );
+  const getLayoutComponent = (hasSidebar:boolean) => {
+    if (hasSidebar) {
+      return ResponsiveDrawerLayout;
     }
 
+    return NoSidebarLayout;
+  };
+
+  const getRoute = (route:RouteDefinition) => {
+    const RouteComponent = getRouteComponent(route.authenticated);
+    const LayoutComponent = getLayoutComponent(route.sidebar);
     return (
-      <Route
+      <RouteComponent
         key={route.path}
         path={route.path}
         exact={route.exact}
       >
-        <BaseLayout>
-          <Sidebar>
-            {route.sidebar}
-          </Sidebar>
-          <Content>
+        <LayoutComponent>
+          <Container>
             {route.component}
-          </Content>
-        </BaseLayout>
-      </Route>
+          </Container>
+        </LayoutComponent>
+      </RouteComponent>
     );
   };
 
-  const registerRoutes = () => routes.map((route) => {
-    if (!route.sidebar) {
-      return getDefault(route);
-    }
-
-    return getSidebar(route);
+  const theme = createTheme({
+    palette: {
+      primary: teal,
+      secondary: pink,
+      mode: 'light',
+    },
   });
 
   return (
-    <>
-      <UserProvider>
-        <Router>
-          <NavBar />
-          <Switch>
-            {registerRoutes()}
-          </Switch>
-        </Router>
-      </UserProvider>
-    </>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <UserProvider>
+          <Router>
+            <Switch>
+              {routes.map((route) => getRoute(route))}
+            </Switch>
+          </Router>
+        </UserProvider>
+      </LocalizationProvider>
+    </ThemeProvider>
   );
 }
 

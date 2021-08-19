@@ -1,16 +1,14 @@
 import React from 'react';
+import { Button } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
+import appPaths from '../utilities/appPaths';
 
 function LoggedOut() {
   return (
-    <ul className="navbar-nav">
-      <li className="nav-item">
-        <a href="google.com" className="nav-link text-light">Register</a>
-      </li>
-      <li className="nav-item">
-        <NavLink exact to="/login" className="nav-link text-light">Login</NavLink>
-      </li>
-    </ul>
+    <>
+      <Button component={NavLink} to={appPaths.register} color="inherit">Register</Button>
+      <Button component={NavLink} to={appPaths.login} color="inherit">Login</Button>
+    </>
   );
 }
 
