@@ -17,6 +17,7 @@ import ClaimedHoursPage from './pages/ClaimedHoursPage';
 import ResponsiveDrawerLayout from './components/layouts/ResponsiveDrawerLayout';
 import NoSidebarLayout from './components/layouts/NoSidebarLayout';
 import SignUpPage from './pages/SignUpPage';
+import SubRequestsPage from './pages/SubRequestsPage';
 
 type RouteDefinition = {
   path: string,
@@ -46,7 +47,7 @@ const routes:RouteDefinition[] = [
     exact: false,
     authenticated: true,
     sidebar: true,
-    component: <HomePage />,
+    component: <SubRequestsPage />,
   },
   {
     path: appPaths.login,
@@ -56,7 +57,7 @@ const routes:RouteDefinition[] = [
     component: <LoginPage />,
   },
   {
-    path: '/register',
+    path: appPaths.register,
     exact: false,
     authenticated: false,
     sidebar: false,

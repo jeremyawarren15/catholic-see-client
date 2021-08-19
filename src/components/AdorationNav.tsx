@@ -1,7 +1,8 @@
 import {
   List, ListItem, ListItemIcon, ListItemText,
 } from '@material-ui/core';
-import InboxIcon from '@material-ui/icons/Inbox';
+import { AccessAlarm, Feedback } from '@material-ui/icons';
+import ListIcon from '@material-ui/icons/List';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import appPaths from '../utilities/appPaths';
@@ -15,7 +16,7 @@ const AdorationNav = ({ handleActionCallback }) => (
       onClick={(e) => handleActionCallback()}
     >
       <ListItemIcon>
-        <InboxIcon />
+        <ListIcon />
       </ListItemIcon>
       <ListItemText primary="Claimed Hours" />
     </ListItem>
@@ -26,15 +27,15 @@ const AdorationNav = ({ handleActionCallback }) => (
       onClick={(e) => handleActionCallback()}
     >
       <ListItemIcon>
-        <InboxIcon />
+        <AccessAlarm />
       </ListItemIcon>
       <ListItemText primary="Available Hours" />
     </ListItem>
     <ListItem button component={NavLink} to={appPaths.requests}>
       <ListItemIcon>
-        <InboxIcon />
+        <Feedback />
       </ListItemIcon>
-      <ListItemText primary="Substitution Requests" />
+      <ListItemText primary="Sub Requests" />
     </ListItem>
   </List>
 );

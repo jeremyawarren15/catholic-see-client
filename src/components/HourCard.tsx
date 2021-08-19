@@ -28,6 +28,7 @@ const HourCard = ({
   minimumAdorers,
   parishId,
   subRequests,
+  showRequests,
   showProgress,
   handleClaimHour,
   handleUnclaimHour,
@@ -37,6 +38,7 @@ const HourCard = ({
   const { adminParishIds } = useContext(UserContext);
 
   const renderSubRequests = () => {
+    if (!showRequests) return <></>;
     if (!subRequests?.length) return (<Typography variant="h6">No sub requests for this hour</Typography>);
 
     const getText = (date:string, isClaimed:boolean) => `${date} - ${isClaimed ? 'Claimed' : 'Unclaimed'}`;

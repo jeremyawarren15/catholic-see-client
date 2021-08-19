@@ -85,6 +85,7 @@ const ClaimedHoursPage = () => {
               adorerCount={hour.adorerCount}
               subRequests={hour.subRequests}
               parishId={hour.parishId}
+              showRequests
               handleUnclaimHour={handleUnclaimHour}
               handleClaimHour={() => Error('Should not be able to claim on this page')}
               handleCreateSubRequest={handleCreateRequest}
