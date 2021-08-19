@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import UserContext from '../contexts/UserContext';
 
 function LoggedIn() {
-  const { name, logOut } = useContext(UserContext);
+  const { logOut } = useContext(UserContext);
   return (
     <>
       <Button color="inherit" onClick={() => logOut()}>Logout</Button>
