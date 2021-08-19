@@ -6,7 +6,6 @@ function LoggedIn() {
   const { name, logOut } = useContext(UserContext);
   return (
     <>
-      <Button color="inherit">{name}</Button>
       <Button color="inherit" onClick={() => logOut()}>Logout</Button>
     </>
   );

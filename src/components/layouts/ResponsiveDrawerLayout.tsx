@@ -17,6 +17,7 @@ import AdorationNav from '../AdorationNav';
 const drawerWidth = 240;
 
 function ResponsiveDrawerLayout({ children }) {
+  const { name } = useContext(UserContext);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { token } = useContext(UserContext);
 
@@ -89,7 +90,9 @@ function ResponsiveDrawerLayout({ children }) {
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
-          <Toolbar />
+          <Toolbar>
+            <Typography variant="h6">{name}</Typography>
+          </Toolbar>
           <Divider />
           <AdorationNav handleActionCallback={handleDrawerToggle} />
         </Drawer>
@@ -101,7 +104,9 @@ function ResponsiveDrawerLayout({ children }) {
           }}
           open
         >
-          <Toolbar />
+          <Toolbar>
+            <Typography variant="h6">{name}</Typography>
+          </Toolbar>
           <Divider />
           <AdorationNav handleActionCallback={() => {}} />
         </Drawer>
