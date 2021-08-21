@@ -1,4 +1,4 @@
-# catholic-see-client
+# CatholicSee Client
 
 ## Purpose
 
