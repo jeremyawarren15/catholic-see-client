@@ -15,3 +15,6 @@ This also helps church administration because there are still too many parishes 
 ## Technical details
 
 This is a React project using the Material-UI component library. For the backend I'm using a .NET CORE API with Entity Framework Core.
+
+![Available Hours Page](./readme-images/AvailableHours.PNG?raw=true)
+![Available Hours Page](./readme-images/ClaimedHours.PNG?raw=true)
