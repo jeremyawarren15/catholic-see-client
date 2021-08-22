@@ -7,13 +7,17 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import appPaths from '../utilities/appPaths';
 
-const AdorationNav = ({ handleActionCallback }) => (
+type Props = {
+  handleActionCallback: () => void
+}
+
+const AdorationNav = ({ handleActionCallback }: Props) => (
   <List>
     <ListItem
       button
       component={NavLink}
       to={appPaths.claimed}
-      onClick={(e) => handleActionCallback()}
+      onClick={() => handleActionCallback()}
     >
       <ListItemIcon>
         <ListIcon />
@@ -24,7 +28,7 @@ const AdorationNav = ({ handleActionCallback }) => (
       button
       component={NavLink}
       to={appPaths.available}
-      onClick={(e) => handleActionCallback()}
+      onClick={() => handleActionCallback()}
     >
       <ListItemIcon>
         <AccessAlarm />

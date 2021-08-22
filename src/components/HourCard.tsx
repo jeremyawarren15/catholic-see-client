@@ -39,9 +39,11 @@ const HourCard = ({
 
   const renderSubRequests = () => {
     if (!showRequests) return <></>;
-    if (!subRequests?.length) return (<Typography variant="h6">No sub requests for this hour</Typography>);
+    if (!subRequests || subRequests.length < 1) {
+      return <></>
+    }
 
-    const getText = (date:string, isClaimed:boolean) => `${date} - ${isClaimed ? 'Claimed' : 'Unclaimed'}`;
+    const getText = (date: string, isClaimed: boolean) => `${date} - ${isClaimed ? 'Claimed' : 'Unclaimed'}`;
 
     return (
       <>
@@ -56,7 +58,7 @@ const HourCard = ({
               >
                 Cancel Request
               </Button>
-          )}
+            )}
           >
             {getText(item.dateOfSubstitution, item.hasBeenPickedUp)}
           </Alert>
@@ -101,7 +103,7 @@ const HourCard = ({
     );
   };
 
-  const getProgressColor = (progress:number) => {
+  const getProgressColor = (progress: number) => {
     if (progress >= 100) return 'success';
     if (isClaimedByUser) return 'primary';
     return 'error';

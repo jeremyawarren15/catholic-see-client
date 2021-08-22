@@ -16,7 +16,11 @@ import AdorationNav from '../AdorationNav';
 
 const drawerWidth = 240;
 
-function ResponsiveDrawerLayout({ children }) {
+type Props = {
+  children: React.ReactNode
+}
+
+function ResponsiveDrawerLayout({ children }: Props) {
   const { name } = useContext(UserContext);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { token } = useContext(UserContext);
@@ -108,7 +112,7 @@ function ResponsiveDrawerLayout({ children }) {
             <Typography variant="h6">{name}</Typography>
           </Toolbar>
           <Divider />
-          <AdorationNav handleActionCallback={() => {}} />
+          <AdorationNav handleActionCallback={() => { }} />
         </Drawer>
       </Box>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

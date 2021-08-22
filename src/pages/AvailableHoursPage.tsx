@@ -24,25 +24,25 @@ const AvailableHoursPage = () => {
     setHours(data);
   };
 
-  const handleClaimHour = async (timeSlotId:number) => {
+  const handleClaimHour = async (timeSlotId: number) => {
     await claimHour(token, timeSlotId);
     updateHours();
   };
 
-  const handleCreateRequest = (timeSlotId:number, day:number) => {
+  const handleCreateRequest = (timeSlotId: number, day: number) => {
     setModalTimeSlotId(timeSlotId);
     setDialogDay(day);
     setCreateRequestDialogOpen(true);
   };
 
-  const handleConfirmCreateRequest = (chosenDate:Date) => {
+  const handleConfirmCreateRequest = (chosenDate: Date) => {
     createSubRequest(token, modalTimeSlotId, chosenDate).then(() => {
       updateHours();
       setCreateRequestDialogOpen(false);
     });
   };
 
-  const handleUnclaimHour = (timeSlotId:number) => {
+  const handleUnclaimHour = (timeSlotId: number) => {
     setUnclaimHourDialogOpen(true);
     setModalTimeSlotId(timeSlotId);
   };
@@ -54,9 +54,9 @@ const AvailableHoursPage = () => {
   };
 
   const getHoursForDay = (
-    listOfHours:HourCardRequirements[],
-    day:number,
-  ):HourCardRequirements[] => {
+    listOfHours: HourCardRequirements[],
+    day: number,
+  ): HourCardRequirements[] => {
     const filteredHours = listOfHours.filter((hour) => hour.day === day);
     return filteredHours.sort((a, b) => a.hour - b.hour);
   };
@@ -65,7 +65,7 @@ const AvailableHoursPage = () => {
     updateHours();
   }, []);
 
-  const renderHours = (day:Day) => {
+  const renderHours = (day: Day) => {
     const hoursForDay = getHoursForDay(hours, day.index);
 
     return (hoursForDay?.map((hour) => (

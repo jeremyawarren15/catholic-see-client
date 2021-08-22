@@ -27,7 +27,7 @@ const LoginPage = () => {
       });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     onSubmit();
   };

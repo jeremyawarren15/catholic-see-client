@@ -14,21 +14,25 @@ import React, { useState } from 'react';
 type Props = {
   open: boolean,
   day: number,
-  handleConfirmCreateRequest: (chosenDate:Date) => void,
+  handleConfirmCreateRequest: (chosenDate: Date) => void,
   handleClose: () => void
 }
 
 const CreateRequestDialog = ({
   open, day, handleConfirmCreateRequest, handleClose,
-}:Props) => {
-  const [chosenDate, setChosenDate] = useState<Date>(new Date());
+}: Props) => {
+  const [chosenDate, setChosenDate] = useState<Date | null>(new Date());
 
-  const disableAllDaysExceptDay = (date:Date) => {
+  const disableAllDaysExceptDay = (date: Date | null) => {
+    if (!date) return true;
     if (date < new Date()) return true;
     return date.getDay() !== day;
   };
 
   const handleClick = () => {
+    if (chosenDate === null) {
+      return;
+    }
     if (disableAllDaysExceptDay(chosenDate)) {
       return;
     }

@@ -7,7 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import { Container } from '@material-ui/core';
 import LoggedOut from '../LoggedOut';
 
-function NoSidebarLayout({ children }) {
+type Props = {
+  children: React.ReactNode
+}
+
+function NoSidebarLayout({ children }: Props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
