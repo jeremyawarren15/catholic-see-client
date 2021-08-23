@@ -1,23 +1,25 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {
+  CircularProgress,
   Container, createTheme, CssBaseline, ThemeProvider,
 } from '@material-ui/core';
 import { pink, teal } from '@material-ui/core/colors';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import LoginPage from './pages/LoginPage';
 import UserProvider from './providers/UserProvider';
 import HomePage from './pages/HomePage';
 import appPaths from './utilities/appPaths';
 import AuthenticatedRoute from './components/RouteAuthenticator';
-import AvailableHoursPage from './pages/AvailableHoursPage';
-import ClaimedHoursPage from './pages/ClaimedHoursPage';
 import ResponsiveDrawerLayout from './components/layouts/ResponsiveDrawerLayout';
 import NoSidebarLayout from './components/layouts/NoSidebarLayout';
-import SignUpPage from './pages/SignUpPage';
-import SubRequestsPage from './pages/SubRequestsPage';
+
+const AvailableHoursPage = lazy(() => import('./pages/AvailableHoursPage'))
+const ClaimedHoursPage = lazy(() => import('./pages/ClaimedHoursPage'))
+const SubRequestsPage = lazy(() => import('./pages/SubRequestsPage'))
+const LoginPage = (lazy(() => import('./pages/LoginPage')))
+const SignUpPage = (lazy(() => import('./pages/SignUpPage')))
 
 type RouteDefinition = {
   path: string,
@@ -27,7 +29,7 @@ type RouteDefinition = {
   component: React.ReactNode
 }
 
-const routes:RouteDefinition[] = [
+const routes: RouteDefinition[] = [
   {
     path: appPaths.available,
     exact: false,
@@ -73,7 +75,7 @@ const routes:RouteDefinition[] = [
 ];
 
 function App() {
-  const getRouteComponent = (authenticationRequired:boolean) => {
+  const getRouteComponent = (authenticationRequired: boolean) => {
     if (authenticationRequired) {
       return AuthenticatedRoute;
     }
@@ -81,7 +83,7 @@ function App() {
     return Route;
   };
 
-  const getLayoutComponent = (hasSidebar:boolean) => {
+  const getLayoutComponent = (hasSidebar: boolean) => {
     if (hasSidebar) {
       return ResponsiveDrawerLayout;
     }
@@ -89,7 +91,7 @@ function App() {
     return NoSidebarLayout;
   };
 
-  const getRoute = (route:RouteDefinition) => {
+  const getRoute = (route: RouteDefinition) => {
     const RouteComponent = getRouteComponent(route.authenticated);
     const LayoutComponent = getLayoutComponent(route.sidebar);
     return (
@@ -100,7 +102,9 @@ function App() {
       >
         <LayoutComponent>
           <Container>
-            {route.component}
+            <Suspense fallback={<CircularProgress />}>
+              {route.component}
+            </Suspense>
           </Container>
         </LayoutComponent>
       </RouteComponent>
