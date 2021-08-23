@@ -11,7 +11,7 @@ const SubRequestsPage = () => {
           date={new Date()}
           location="Sacred Heart Chapel"
           subRequestId={1}
-          handleClaimSubRequest={() => console.log("Hey")}
+          handleClaimSubRequest={() => { }}
         />
       </Grid>
     </Grid>

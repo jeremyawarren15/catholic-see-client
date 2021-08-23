@@ -19,7 +19,6 @@ const SubRequestCard = ({
   handleClaimSubRequest,
 }: Props) => {
   const printDate = () => {
-    console.log('something');
     return date.toDateString();
   };
 
