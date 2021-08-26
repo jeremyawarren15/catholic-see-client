@@ -16,7 +16,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import UserContext from '../contexts/UserContext';
 import getDayString from '../utilities/dayFormatter';
-import getTimeString from '../utilities/timeFormatter';
+import { getTimeString } from '../utilities/timeFormatter';
 
 const HourCard = ({
   timeSlotId,
@@ -71,35 +71,32 @@ const HourCard = ({
   const renderActionButtons = () => {
     if (!isClaimedByUser) {
       return (
-        <Tooltip title="Claim Hour">
-          <IconButton
-            color="success"
-            onClick={() => handleClaimHour(timeSlotId)}
-          >
-            <AddBox />
-          </IconButton>
-        </Tooltip>
+        <Button
+          color="success"
+          size="small"
+          onClick={() => handleClaimHour(timeSlotId)}
+        >
+          Claim
+        </Button>
       );
     }
 
     return (
       <>
-        <Tooltip title="Unclaim Hour">
-          <IconButton
-            color="error"
-            onClick={() => handleUnclaimHour(timeSlotId)}
-          >
-            <Cancel />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Make Sub Request">
-          <IconButton
-            color="primary"
-            onClick={() => handleCreateSubRequest(timeSlotId, day)}
-          >
-            <Schedule />
-          </IconButton>
-        </Tooltip>
+        <Button
+          color='error'
+          size='small'
+          onClick={() => handleUnclaimHour(timeSlotId)}
+        >
+          Unclaim
+        </Button>
+        <Button
+          color="primary"
+          size='small'
+          onClick={() => handleCreateSubRequest(timeSlotId, day)}
+        >
+          Request Sub
+        </Button>
       </>
     );
   };

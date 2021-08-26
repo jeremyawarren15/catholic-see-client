@@ -1,50 +1,54 @@
 import {
-  Box,
-  Card, CardContent, IconButton, Tooltip, Typography,
+  Button,
+  Card, CardActions, CardContent, Typography,
 } from '@material-ui/core';
-import { AddBox } from '@material-ui/icons';
-import React from 'react';
-
-type Props = {
-  subRequestId: number,
-  date: Date,
-  location: string,
-  handleClaimSubRequest: (subRequestId: number) => void
-}
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { SubRequestCardRequirements } from '../types/SubRequestCardRequirements';
+import daysOfTheWeek from '../utilities/constants';
+import { getHourTimeSpanString } from '../utilities/timeFormatter';
 
 const SubRequestCard = ({
   subRequestId,
-  date,
   location,
+  dateOfSubstitution,
+  timeSlotHour,
   handleClaimSubRequest,
-}: Props) => {
-  const printDate = () => {
-    return date.toDateString();
+}: SubRequestCardRequirements) => {
+  const [isRaised, setIsRaised] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsRaised(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsRaised(false);
   };
 
   return (
-    <Card sx={{
-      display: 'flex',
-      justifyContent: 'space-between'
-    }} elevation={4} >
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <CardContent>
-          <Typography component="div" variant="h5">
-            Sunday 3/3/2021
-          </Typography>
-          <Typography component="div" variant="h5">
-            4-5PM
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
-            Sacred Heart Chapel
-          </Typography>
-        </CardContent>
-      </Box >
-      <Tooltip title="Claim Sub Request">
-        < IconButton sx={{ alignSelf: 'center', marginLeft: 'auto', marginRight: 'auto' }} color="success">
-          <AddBox sx={{ height: '3em', width: '3em' }} />
-        </IconButton>
-      </Tooltip>
+    <Card
+      raised={isRaised}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <CardContent>
+        <Typography component="div" variant="h5">
+          {daysOfTheWeek[dateOfSubstitution.getDay()].value}
+        </Typography>
+        <Typography component="div" variant="h5">
+          {getHourTimeSpanString(timeSlotHour)}
+        </Typography>
+        <Typography variant="subtitle1" color="text.secondary" component="div">
+          {location}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button
+          color="success"
+        >
+          Pick Up
+        </Button>
+      </CardActions>
     </Card >
   );
 };

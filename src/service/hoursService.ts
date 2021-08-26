@@ -1,39 +1,45 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { HourCardRequirements } from '../types/HourCardRequirements';
+import { SubRequestCardRequirements } from '../types/SubRequestCardRequirements';
 
-const getRequestConfig = (token:string):AxiosRequestConfig => ({
+const getRequestConfig = (token: string): AxiosRequestConfig => ({
   withCredentials: true,
   headers: {
     Authorization: `Bearer ${token}`,
   },
 });
 
-export const getHours = (token:string) => axios.get<HourCardRequirements[]>(
+export const getHours = (token: string) => axios.get<HourCardRequirements[]>(
   'https://localhost:44324/api/availableHours',
   getRequestConfig(token),
 );
 
-export const getClaimedHours = (token:string) => axios.get<HourCardRequirements[]>(
+export const getClaimedHours = (token: string) => axios.get<HourCardRequirements[]>(
   'https://localhost:44324/api/claimedHours/',
   getRequestConfig(token),
 );
 
-export const claimHour = (token:string, timeSlotId:number) => axios.post(
+export const getSubRequests = (token: string) => axios.get<SubRequestCardRequirements[]>(
+  'https://localhost:44324/api/subRequests/',
+  getRequestConfig(token)
+)
+
+export const claimHour = (token: string, timeSlotId: number) => axios.post(
   `https://localhost:44324/api/hour/claim/${timeSlotId}`,
   null,
   getRequestConfig(token),
 );
 
-export const unclaimHour = (token:string, timeSlotId:number) => axios.post(
+export const unclaimHour = (token: string, timeSlotId: number) => axios.post(
   `https://localhost:44324/api/hour/unclaim/${timeSlotId}`,
   null,
   getRequestConfig(token),
 );
 
 export const createSubRequest = (
-  token:string,
-  timeSlotId:number,
-  dateOfSubstitution:Date,
+  token: string,
+  timeSlotId: number,
+  dateOfSubstitution: Date,
 ) => axios.post(
   'https://localhost:44324/api/subRequest/create',
   {
@@ -44,8 +50,8 @@ export const createSubRequest = (
 );
 
 export const cancelSubRequest = (
-  token:string,
-  subRequestId:number,
+  token: string,
+  subRequestId: number,
 ) => axios.post(
   `https://localhost:44324/api/subRequest/cancel/${subRequestId}`,
   null,
