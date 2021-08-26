@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Alert,
   Button,
@@ -36,6 +36,7 @@ const HourCard = ({
   handleCancelSubRequest,
 }: HourCardRequirements) => {
   const { adminParishIds } = useContext(UserContext);
+  const [isRaised, setIsRaised] = useState(false);
 
   const renderSubRequests = () => {
     if (!showRequests) return <></>;
@@ -150,8 +151,20 @@ const HourCard = ({
 
   const renderHeadingText = () => `${getDayString(day)} ${getTimeString(hour)}`;
 
+  const handleMouseEnter = () => {
+    setIsRaised(true)
+  }
+
+  const handleMouseLeave = () => {
+    setIsRaised(false)
+  }
+
   return (
-    <Card elevation={4}>
+    <Card
+      raised={isRaised}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <CardHeader
         title={renderHeadingText()}
         subheader={location}
