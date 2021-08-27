@@ -9,7 +9,6 @@ export const getTimeString = (timeIndex: number): string => {
 };
 
 export const getHourTimeSpanString = (timeIndex: number): string => {
-  console.log(timeIndex)
   if (timeIndex > 23 || timeIndex < 0) return '';
   if (timeIndex === 0) return '12-1 AM';
   if (timeIndex === 11) return '11 AM-12 PM'

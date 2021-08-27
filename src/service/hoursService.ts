@@ -24,6 +24,12 @@ export const getSubRequests = (token: string) => axios.get<SubRequestCardRequire
   getRequestConfig(token)
 )
 
+export const pickUpSubRequest = (token: string, subRequestId: number) => axios.post(
+  `https://localhost:44324/api/subRequest/pickUp/${subRequestId}`,
+  null,
+  getRequestConfig(token),
+);
+
 export const claimHour = (token: string, timeSlotId: number) => axios.post(
   `https://localhost:44324/api/hour/claim/${timeSlotId}`,
   null,

@@ -3,7 +3,6 @@ import {
   Card, CardActions, CardContent, Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import { SubRequestCardRequirements } from '../types/SubRequestCardRequirements';
 import daysOfTheWeek from '../utilities/constants';
 import { getHourTimeSpanString } from '../utilities/timeFormatter';
@@ -13,7 +12,7 @@ const SubRequestCard = ({
   location,
   dateOfSubstitution,
   timeSlotHour,
-  handleClaimSubRequest,
+  handlePickUpSubRequest,
 }: SubRequestCardRequirements) => {
   const [isRaised, setIsRaised] = useState(false);
 
@@ -45,6 +44,7 @@ const SubRequestCard = ({
       <CardActions>
         <Button
           color="success"
+          onClick={() => handlePickUpSubRequest(subRequestId)}
         >
           Pick Up
         </Button>

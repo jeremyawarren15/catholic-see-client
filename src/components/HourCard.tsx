@@ -51,7 +51,7 @@ const HourCard = ({
         {subRequests.map((item) => (
           <Alert
             severity={item.hasBeenPickedUp ? 'success' : 'info'}
-            action={(
+            action={!item.hasBeenPickedUp && (
               <Button
                 color="inherit"
                 size="small"

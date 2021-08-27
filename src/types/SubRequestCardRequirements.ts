@@ -4,5 +4,5 @@ export type SubRequestCardRequirements = {
   location: string,
   dateOfSubstitution: Date,
   timeSlotHour: number,
-  handleClaimSubRequest: (subRequestId: number) => void
+  handlePickUpSubRequest: (subRequestId: number) => void
 }
