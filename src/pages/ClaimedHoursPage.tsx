@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Grid } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
 import HourCard from '../components/HourCard';
 import UserContext from '../contexts/UserContext';
 import {
@@ -29,7 +29,7 @@ const ClaimedHoursPage = () => {
     });
   };
 
-  const handleUnclaimHour = (timeSlotId:number) => {
+  const handleUnclaimHour = (timeSlotId: number) => {
     setDialogTimeSlotId(timeSlotId);
     setUnclaimHourDialogOpen(true);
   };
@@ -40,20 +40,20 @@ const ClaimedHoursPage = () => {
     updateHours();
   };
 
-  const handleCreateRequest = (timeSlotId:number, day:number) => {
+  const handleCreateRequest = (timeSlotId: number, day: number) => {
     setDialogTimeSlotId(timeSlotId);
     setDialogDay(day);
     setRequestDialogOpen(true);
   };
 
-  const handleConfirmCreateRequest = (chosenDate:Date) => {
+  const handleConfirmCreateRequest = (chosenDate: Date) => {
     createSubRequest(token, dialogTimeSlotId, chosenDate).then(() => {
       updateHours();
       setRequestDialogOpen(false);
     });
   };
 
-  const handleCancelRequest = (subRequestId:number) => {
+  const handleCancelRequest = (subRequestId: number) => {
     setDialogSubRequestId(subRequestId);
     setCancelRequestDialogOpen(true);
   };
@@ -71,9 +71,32 @@ const ClaimedHoursPage = () => {
 
   return (
     <>
+      <Grid container spacing={3} sx={{ marginBottom: '20px' }}>
+        <Grid item xs={12} sm={6}>
+          <Card>
+            <CardHeader
+              title="Sub Requests By You"
+            />
+            <CardContent>
+              <Typography>This is where your current sub requests are</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Card>
+            <CardHeader
+              title="Picked Up Sub Requests"
+            />
+            <CardContent>
+              <Typography>Sub Requests that you've picked up from other people</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+      <Typography variant='h4' sx={{ marginBottom: '20px' }}>Your Hours</Typography>
       <Grid container spacing={3}>
         {hours.map((hour) => (
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={8} md={4}>
             <HourCard
               timeSlotId={hour.timeSlotId}
               key={hour.timeSlotId}

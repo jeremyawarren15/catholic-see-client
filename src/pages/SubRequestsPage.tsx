@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import PickUpSubRequestDialog from '../components/dialogs/PickUpSubRequestDialog';
@@ -38,7 +38,7 @@ const SubRequestsPage = () => {
     <>
       <Grid container spacing={3} sx={{ marginBottom: '20px' }}>
         {subRequests?.map((subRequest) => (
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={8} md={4}>
             <SubRequestCard
               dateOfSubstitution={new Date(subRequest.dateOfSubstitution)}
               timeSlotHour={subRequest.timeSlotHour}

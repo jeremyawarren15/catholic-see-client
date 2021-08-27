@@ -39,9 +39,9 @@ const HourCard = ({
   const [isRaised, setIsRaised] = useState(false);
 
   const renderSubRequests = () => {
-    if (!showRequests) return <></>;
+    if (!showRequests) return null;
     if (!subRequests || subRequests.length < 1) {
-      return <></>
+      return null;
     }
 
     const getText = (date: string, isClaimed: boolean) => `${date} - ${isClaimed ? 'Claimed' : 'Unclaimed'}`;
@@ -108,7 +108,7 @@ const HourCard = ({
   };
 
   const renderProgress = () => {
-    if (!showProgress) return <></>;
+    if (!showProgress) return null;
 
     let adorerPercentage = 0.0;
     if (minimumAdorers > 0) {
@@ -156,6 +156,22 @@ const HourCard = ({
     setIsRaised(false)
   }
 
+  const renderCardContent = () => {
+    const progressContent = renderProgress();
+    const subRequestsContent = renderSubRequests();
+
+    if (!progressContent && !subRequestsContent) {
+      return null;
+    }
+
+    return (
+      <CardContent>
+        {progressContent}
+        {subRequestsContent}
+      </CardContent>
+    )
+  }
+
   return (
     <Card
       raised={isRaised}
@@ -167,10 +183,7 @@ const HourCard = ({
         subheader={location}
         action={renderEditButton()}
       />
-      <CardContent>
-        {renderProgress()}
-        {renderSubRequests()}
-      </CardContent>
+      {renderCardContent()}
       <CardActions disableSpacing>
         {renderActionButtons()}
       </CardActions>

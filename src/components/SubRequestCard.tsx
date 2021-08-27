@@ -32,7 +32,7 @@ const SubRequestCard = ({
     >
       <CardContent>
         <Typography component="div" variant="h5">
-          {daysOfTheWeek[dateOfSubstitution.getDay()].value}
+          {daysOfTheWeek[dateOfSubstitution.getDay()].value + ' ' + dateOfSubstitution.toLocaleDateString()}
         </Typography>
         <Typography component="div" variant="h5">
           {getHourTimeSpanString(timeSlotHour)}
