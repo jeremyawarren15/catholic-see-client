@@ -10,7 +10,6 @@ export type HourCardRequirements = {
   adorerCount: number,
   minimumAdorers: number,
   parishId: number,
-  subRequests?: SubRequestListItem[],
   showRequests?: boolean,
   showProgress?: boolean,
   handleClaimHour: (timeSlotId: number) => void,

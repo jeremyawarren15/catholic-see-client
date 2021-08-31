@@ -27,7 +27,6 @@ const HourCard = ({
   adorerCount,
   minimumAdorers,
   parishId,
-  subRequests,
   showRequests,
   showProgress,
   handleClaimHour,
@@ -37,36 +36,6 @@ const HourCard = ({
 }: HourCardRequirements) => {
   const { adminParishIds } = useContext(UserContext);
   const [isRaised, setIsRaised] = useState(false);
-
-  const renderSubRequests = () => {
-    if (!showRequests) return null;
-    if (!subRequests || subRequests.length < 1) {
-      return null;
-    }
-
-    const getText = (date: string, isClaimed: boolean) => `${date} - ${isClaimed ? 'Claimed' : 'Unclaimed'}`;
-
-    return (
-      <>
-        {subRequests.map((item) => (
-          <Alert
-            severity={item.hasBeenPickedUp ? 'success' : 'info'}
-            action={!item.hasBeenPickedUp && (
-              <Button
-                color="inherit"
-                size="small"
-                onClick={() => handleCancelSubRequest(item.subRequestId)}
-              >
-                Cancel Request
-              </Button>
-            )}
-          >
-            {getText(item.dateOfSubstitution, item.hasBeenPickedUp)}
-          </Alert>
-        ))}
-      </>
-    );
-  };
 
   const renderActionButtons = () => {
     if (!isClaimedByUser) {
@@ -158,16 +127,14 @@ const HourCard = ({
 
   const renderCardContent = () => {
     const progressContent = renderProgress();
-    const subRequestsContent = renderSubRequests();
 
-    if (!progressContent && !subRequestsContent) {
+    if (!progressContent) {
       return null;
     }
 
     return (
       <CardContent>
         {progressContent}
-        {subRequestsContent}
       </CardContent>
     )
   }

@@ -14,6 +14,7 @@ import appPaths from './utilities/appPaths';
 import AuthenticatedRoute from './components/RouteAuthenticator';
 import ResponsiveDrawerLayout from './components/layouts/ResponsiveDrawerLayout';
 import NoSidebarLayout from './components/layouts/NoSidebarLayout';
+import SettingsPage from './pages/SettingsPage';
 
 const AvailableHoursPage = lazy(() => import('./pages/AvailableHoursPage'))
 const ClaimedHoursPage = lazy(() => import('./pages/ClaimedHoursPage'))
@@ -50,6 +51,13 @@ const routes: RouteDefinition[] = [
     authenticated: true,
     sidebar: true,
     component: <SubRequestsPage />,
+  },
+  {
+    path: appPaths.settings,
+    exact: false,
+    authenticated: true,
+    sidebar: true,
+    component: <SettingsPage />,
   },
   {
     path: appPaths.login,

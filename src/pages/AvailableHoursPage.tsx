@@ -1,5 +1,8 @@
-import { Grid } from '@material-ui/core';
+import { Fab, Grid, Zoom } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add'
 import React, { useContext, useEffect, useState } from 'react';
+import ActionFab from '../components/ActionFab';
+import AddHourDialog from '../components/dialogs/AddHourDialog';
 import CreateRequestDialog from '../components/dialogs/CreateRequestDialog';
 import UnclaimHourDialog from '../components/dialogs/UnclaimHourDialog';
 import HourCard from '../components/HourCard';
@@ -14,10 +17,13 @@ import daysOfTheWeek from '../utilities/constants';
 const AvailableHoursPage = () => {
   const [modalTimeSlotId, setModalTimeSlotId] = useState<number>(0);
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
-  const { token } = useContext(UserContext);
+  const { token, adminParishIds } = useContext(UserContext);
   const [unclaimHourDialogOpen, setUnclaimHourDialogOpen] = useState<boolean>(false);
   const [createRequestDialogOpen, setCreateRequestDialogOpen] = useState<boolean>(false);
+  const [addHourDialogOpen, setAddHourDialogOpen] = useState<boolean>(false);
   const [dialogDay, setDialogDay] = useState<number>(0);
+  const [showAction, setShowAction] = useState(true);
+  const isAdmin = adminParishIds.length > 0
 
   const updateHours = async () => {
     const { data } = await getHours(token);
@@ -97,6 +103,12 @@ const AvailableHoursPage = () => {
           renderHours(day)
         ))}
       </Grid>
+      <ActionFab
+        icon={<AddIcon />}
+        ariaLabel="Add Hour"
+        hide={!isAdmin}
+        handleClick={() => setAddHourDialogOpen(true)}
+      />
       <UnclaimHourDialog
         open={unclaimHourDialogOpen}
         handleClose={() => setUnclaimHourDialogOpen(false)}
@@ -107,6 +119,11 @@ const AvailableHoursPage = () => {
         handleClose={() => setCreateRequestDialogOpen(false)}
         handleConfirmCreateRequest={handleConfirmCreateRequest}
         day={dialogDay}
+      />
+      <AddHourDialog
+        open={addHourDialogOpen}
+        handleClose={() => setAddHourDialogOpen(false)}
+        handleConfirmAddHour={() => console.log("hey")}
       />
     </>
   );

@@ -6,15 +6,21 @@ import {
   cancelSubRequest,
   createSubRequest,
   getClaimedHours,
+  getClaimedSubRequests,
+  getPersonalSubRequests,
   unclaimHour,
 } from '../service/hoursService';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import UnclaimHourDialog from '../components/dialogs/UnclaimHourDialog';
 import CreateRequestDialog from '../components/dialogs/CreateRequestDialog';
 import CancelRequestDialog from '../components/dialogs/CancelRequestDialog';
+import { SubRequestListItem } from '../types/SubRequestListItem';
 
 const ClaimedHoursPage = () => {
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
+  const [personalSubRequests, setPersonalSubRequests] = useState<SubRequestListItem[]>([]);
+  const [claimedSubRequests, setClaimedSubRequests] = useState<SubRequestListItem[]>([]);
+
   const [dialogTimeSlotId, setDialogTimeSlotId] = useState(0);
   const [dialogSubRequestId, setDialogSubRequestId] = useState(0);
   const [dialogDay, setDialogDay] = useState<number>(0);
@@ -27,6 +33,12 @@ const ClaimedHoursPage = () => {
     getClaimedHours(token).then(({ data }) => {
       setHours(data);
     });
+    getPersonalSubRequests(token).then(({ data }) => {
+      setPersonalSubRequests(data);
+    })
+    getClaimedSubRequests(token).then(({ data }) => {
+      setClaimedSubRequests(data);
+    })
   };
 
   const handleUnclaimHour = (timeSlotId: number) => {
@@ -78,7 +90,9 @@ const ClaimedHoursPage = () => {
               title="Sub Requests By You"
             />
             <CardContent>
-              <Typography>This is where your current sub requests are</Typography>
+              {personalSubRequests.map((request) => (
+                <Typography>{request.dateOfSubstitution}</Typography>
+              ))}
             </CardContent>
           </Card>
         </Grid>
@@ -88,7 +102,9 @@ const ClaimedHoursPage = () => {
               title="Picked Up Sub Requests"
             />
             <CardContent>
-              <Typography>Sub Requests that you've picked up from other people</Typography>
+              {claimedSubRequests.map((request) => (
+                <Typography>{request.dateOfSubstitution}</Typography>
+              ))}
             </CardContent>
           </Card>
         </Grid>
@@ -106,7 +122,6 @@ const ClaimedHoursPage = () => {
               location={hour.location}
               minimumAdorers={hour.minimumAdorers}
               adorerCount={hour.adorerCount}
-              subRequests={hour.subRequests}
               parishId={hour.parishId}
               showRequests
               handleUnclaimHour={handleUnclaimHour}

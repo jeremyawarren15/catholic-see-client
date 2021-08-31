@@ -5,6 +5,7 @@ const appPaths = {
   login: '/login',
   requests: '/requests',
   register: '/register',
+  settings: '/settings'
 };
 
 export default appPaths;

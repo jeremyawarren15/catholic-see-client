@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import { SubRequestCardRequirements } from '../types/SubRequestCardRequirements';
+import { SubRequestListItem } from '../types/SubRequestListItem';
 
 const getRequestConfig = (token: string): AxiosRequestConfig => ({
   withCredentials: true,
@@ -21,6 +22,16 @@ export const getClaimedHours = (token: string) => axios.get<HourCardRequirements
 
 export const getSubRequests = (token: string) => axios.get<SubRequestCardRequirements[]>(
   'https://localhost:44324/api/subRequests/',
+  getRequestConfig(token)
+)
+
+export const getPersonalSubRequests = (token: string) => axios.get<SubRequestListItem[]>(
+  'https://localhost:44324/api/subRequests/personal',
+  getRequestConfig(token)
+)
+
+export const getClaimedSubRequests = (token: string) => axios.get<SubRequestListItem[]>(
+  'https://localhost:44324/api/subRequests/claimed',
   getRequestConfig(token)
 )
 
