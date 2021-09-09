@@ -8,7 +8,7 @@ import React, { useContext, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
-import login from '../service/authService';
+import { login } from '../service/authService';
 import appPaths from '../utilities/appPaths';
 
 const LoginPage = () => {
