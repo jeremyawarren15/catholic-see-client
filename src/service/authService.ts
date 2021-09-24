@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export const login = async (userName: string, password: string) => axios.post(
+export const login = async (email: string, password: string) => axios.post(
   'https://localhost:44324/token',
-  { userName, password },
+  { email, password },
   { withCredentials: true }
 );
 

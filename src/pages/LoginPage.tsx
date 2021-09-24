@@ -13,16 +13,16 @@ import appPaths from '../utilities/appPaths';
 
 const LoginPage = () => {
   const { updateToken, updateAdminParishIds, updateName } = useContext(UserContext);
-  const [emailAddress, setEmailAddress] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
 
   const onSubmit = async () => {
-    login(emailAddress, password)
+    login(email, password)
       .then(({ data }) => {
-        updateAdminParishIds(data.parishAdminAccessIds);
-        updateToken(data.access_Token);
-        updateName(data.name);
+        updateAdminParishIds([1]);
+        updateToken(data.jwtToken);
+        updateName(data.firstName + " " + data.lastName);
         history.push(appPaths.claimed);
       });
   };
@@ -58,7 +58,7 @@ const LoginPage = () => {
             name="email"
             autoComplete="email"
             autoFocus
-            onChange={(e) => setEmailAddress(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             margin="normal"

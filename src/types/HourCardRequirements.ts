@@ -1,5 +1,3 @@
-import { SubRequestListItem } from './SubRequestListItem';
-
 /* eslint-disable no-unused-vars */
 export type HourCardRequirements = {
   timeSlotId: number,
