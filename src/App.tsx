@@ -15,6 +15,9 @@ import AuthenticatedRoute from './components/RouteAuthenticator';
 import ResponsiveDrawerLayout from './components/layouts/ResponsiveDrawerLayout';
 import NoSidebarLayout from './components/layouts/NoSidebarLayout';
 import SettingsPage from './pages/SettingsPage';
+import { useContext } from 'react';
+import UserContext from './contexts/UserContext'
+import axios from 'axios';
 
 const AvailableHoursPage = lazy(() => import('./pages/AvailableHoursPage'))
 const ClaimedHoursPage = lazy(() => import('./pages/ClaimedHoursPage'))

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import PickUpSubRequestDialog from '../components/dialogs/PickUpSubRequestDialog';
 import SubRequestCard from '../components/SubRequestCard';
 import UserContext from '../contexts/UserContext';
-import { getSubRequests, pickUpSubRequest } from '../service/hoursService';
+import useHoursApi from '../service/useHoursApi';
 import { SubRequestCardRequirements } from '../types/SubRequestCardRequirements';
 
 const SubRequestsPage = () => {
@@ -12,9 +12,10 @@ const SubRequestsPage = () => {
   const [subRequests, setSubRequests] = useState<SubRequestCardRequirements[]>()
   const [pickUpSubRequestDialogOpen, setPickUpSubRequestDialogOpen] = useState(false);
   const [subRequestId, setSubRequestId] = useState(0);
+  const { getSubRequests, pickUpSubRequest } = useHoursApi();
 
   const updateSubRequests = async () => {
-    const { data } = await getSubRequests(token);
+    const { data } = await getSubRequests();
     setSubRequests(data);
   };
 
@@ -29,7 +30,7 @@ const SubRequestsPage = () => {
 
   const handleConfirmPickUpSubRequest = async () => {
     setPickUpSubRequestDialogOpen(false);
-    await pickUpSubRequest(token, subRequestId);
+    await pickUpSubRequest(subRequestId);
     setSubRequestId(0);
     updateSubRequests();
   }

@@ -2,24 +2,19 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Card, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
 import HourCard from '../components/HourCard';
 import UserContext from '../contexts/UserContext';
-import {
-  cancelSubRequest,
-  createSubRequest,
-  getClaimedHours,
-  getClaimedSubRequests,
-  getPersonalSubRequests,
-  unclaimHour,
-} from '../service/hoursService';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import UnclaimHourDialog from '../components/dialogs/UnclaimHourDialog';
 import CreateRequestDialog from '../components/dialogs/CreateRequestDialog';
 import CancelRequestDialog from '../components/dialogs/CancelRequestDialog';
 import { SubRequestListItem } from '../types/SubRequestListItem';
+import useHoursApi from '../service/useHoursApi';
 
 const ClaimedHoursPage = () => {
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
   const [personalSubRequests, setPersonalSubRequests] = useState<SubRequestListItem[]>([]);
   const [claimedSubRequests, setClaimedSubRequests] = useState<SubRequestListItem[]>([]);
+  const { getClaimedHours, getPersonalSubRequests, getClaimedSubRequests, unclaimHour, createSubRequest, cancelSubRequest } = useHoursApi();
+  const { token } = useContext(UserContext);
 
   const [dialogTimeSlotId, setDialogTimeSlotId] = useState(0);
   const [dialogSubRequestId, setDialogSubRequestId] = useState(0);
@@ -27,16 +22,15 @@ const ClaimedHoursPage = () => {
   const [unclaimHourDialogOpen, setUnclaimHourDialogOpen] = useState(false);
   const [createRequestDialogOpen, setRequestDialogOpen] = useState(false);
   const [cancelRequestDialogOpen, setCancelRequestDialogOpen] = useState(false);
-  const { token } = useContext(UserContext);
 
   const updateHours = () => {
-    getClaimedHours(token).then(({ data }) => {
+    getClaimedHours().then(({ data }) => {
       setHours(data);
     });
-    getPersonalSubRequests(token).then(({ data }) => {
+    getPersonalSubRequests().then(({ data }) => {
       setPersonalSubRequests(data);
     })
-    getClaimedSubRequests(token).then(({ data }) => {
+    getClaimedSubRequests().then(({ data }) => {
       setClaimedSubRequests(data);
     })
   };
@@ -48,7 +42,7 @@ const ClaimedHoursPage = () => {
 
   const handleConfirmUnclaimHour = async () => {
     setUnclaimHourDialogOpen(false);
-    await unclaimHour(token, dialogTimeSlotId);
+    await unclaimHour(dialogTimeSlotId);
     updateHours();
   };
 
@@ -59,7 +53,7 @@ const ClaimedHoursPage = () => {
   };
 
   const handleConfirmCreateRequest = (chosenDate: Date) => {
-    createSubRequest(token, dialogTimeSlotId, chosenDate).then(() => {
+    createSubRequest(dialogTimeSlotId, chosenDate).then(() => {
       updateHours();
       setRequestDialogOpen(false);
     });
@@ -71,7 +65,7 @@ const ClaimedHoursPage = () => {
   };
 
   const handleConfirmCancelRequest = () => {
-    cancelSubRequest(token, dialogSubRequestId).then(() => {
+    cancelSubRequest(dialogSubRequestId).then(() => {
       updateHours();
       setCancelRequestDialogOpen(false);
     });
@@ -79,7 +73,7 @@ const ClaimedHoursPage = () => {
 
   useEffect(() => {
     updateHours();
-  }, []);
+  }, [token]);
 
   return (
     <>

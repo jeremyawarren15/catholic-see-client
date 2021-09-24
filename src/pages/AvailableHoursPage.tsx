@@ -7,9 +7,7 @@ import CreateRequestDialog from '../components/dialogs/CreateRequestDialog';
 import UnclaimHourDialog from '../components/dialogs/UnclaimHourDialog';
 import HourCard from '../components/HourCard';
 import UserContext from '../contexts/UserContext';
-import {
-  claimHour, createSubRequest, getHours, unclaimHour,
-} from '../service/hoursService';
+import useHoursApi from '../service/useHoursApi';
 import { Day } from '../types/Day';
 import { HourCardRequirements } from '../types/HourCardRequirements';
 import daysOfTheWeek from '../utilities/constants';
@@ -17,21 +15,23 @@ import daysOfTheWeek from '../utilities/constants';
 const AvailableHoursPage = () => {
   const [modalTimeSlotId, setModalTimeSlotId] = useState<number>(0);
   const [hours, setHours] = useState<HourCardRequirements[]>([]);
-  const { token, adminParishIds } = useContext(UserContext);
+  const { adminParishIds } = useContext(UserContext);
   const [unclaimHourDialogOpen, setUnclaimHourDialogOpen] = useState<boolean>(false);
   const [createRequestDialogOpen, setCreateRequestDialogOpen] = useState<boolean>(false);
   const [addHourDialogOpen, setAddHourDialogOpen] = useState<boolean>(false);
   const [dialogDay, setDialogDay] = useState<number>(0);
   const [showAction, setShowAction] = useState(true);
   const isAdmin = adminParishIds.length > 0
+  const { getHours, claimHour, createSubRequest, unclaimHour } = useHoursApi();
+  const { token } = useContext(UserContext)
 
   const updateHours = async () => {
-    const { data } = await getHours(token);
+    const { data } = await getHours();
     setHours(data);
   };
 
   const handleClaimHour = async (timeSlotId: number) => {
-    await claimHour(token, timeSlotId);
+    await claimHour(timeSlotId);
     updateHours();
   };
 
@@ -42,7 +42,7 @@ const AvailableHoursPage = () => {
   };
 
   const handleConfirmCreateRequest = (chosenDate: Date) => {
-    createSubRequest(token, modalTimeSlotId, chosenDate).then(() => {
+    createSubRequest(modalTimeSlotId, chosenDate).then(() => {
       updateHours();
       setCreateRequestDialogOpen(false);
     });
@@ -55,7 +55,7 @@ const AvailableHoursPage = () => {
 
   const handleConfirmUnclaimHour = async () => {
     setUnclaimHourDialogOpen(false);
-    await unclaimHour(token, modalTimeSlotId);
+    await unclaimHour(modalTimeSlotId);
     updateHours();
   };
 
@@ -69,7 +69,7 @@ const AvailableHoursPage = () => {
 
   useEffect(() => {
     updateHours();
-  }, []);
+  }, [token]);
 
   const renderHours = (day: Day) => {
     const hoursForDay = getHoursForDay(hours, day.index);

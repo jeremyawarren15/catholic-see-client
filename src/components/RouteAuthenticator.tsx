@@ -5,7 +5,8 @@ import appPaths from '../utilities/appPaths';
 
 const AuthenticatedRoute = ({ children, ...other }: RouteProps) => {
   const { token } = useContext(UserContext);
-  if (token) {
+
+  if (token || document.cookie.indexOf("refreshToken")) {
     return (
       <Route
         {...other}
