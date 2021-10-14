@@ -19,6 +19,12 @@ const RouteBuilder = () => {
     return NoSidebarLayout;
   };
 
+  const getProgressIndicator = () => (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <CircularProgress />
+    </div>
+  )
+
   const getRoute = (route: RouteDefinition) => {
     const LayoutComponent = getLayoutComponent(route.sidebar);
     return (
@@ -29,7 +35,7 @@ const RouteBuilder = () => {
       >
         <LayoutComponent>
           <Container>
-            <Suspense fallback={<CircularProgress />}>
+            <Suspense fallback={getProgressIndicator()}>
               <route.component />
             </Suspense>
           </Container>
