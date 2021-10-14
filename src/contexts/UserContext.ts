@@ -5,7 +5,8 @@ export type UserContextDetails = {
   token: string,
   name: string,
   adminParishIds: number[],
-  updateToken: (token:string) => void,
+  hasFailedRefresh: boolean,
+  updateToken: (token: string) => void,
   updateAdminParishIds: (ids: number[]) => void
   updateName: (name: string) => void,
   logOut: () => void

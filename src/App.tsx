@@ -1,127 +1,16 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import {
-  CircularProgress,
-  Container, createTheme, CssBaseline, ThemeProvider,
+  createTheme, CssBaseline, ThemeProvider,
 } from '@material-ui/core';
 import { pink, teal } from '@material-ui/core/colors';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import UserProvider from './providers/UserProvider';
-import HomePage from './pages/HomePage';
-import appPaths from './utilities/appPaths';
-import AuthenticatedRoute from './components/RouteAuthenticator';
-import ResponsiveDrawerLayout from './components/layouts/ResponsiveDrawerLayout';
-import NoSidebarLayout from './components/layouts/NoSidebarLayout';
-import SettingsPage from './pages/SettingsPage';
-import { useContext } from 'react';
-import UserContext from './contexts/UserContext'
-import axios from 'axios';
-
-const AvailableHoursPage = lazy(() => import('./pages/AvailableHoursPage'))
-const ClaimedHoursPage = lazy(() => import('./pages/ClaimedHoursPage'))
-const SubRequestsPage = lazy(() => import('./pages/SubRequestsPage'))
-const LoginPage = (lazy(() => import('./pages/LoginPage')))
-const SignUpPage = (lazy(() => import('./pages/SignUpPage')))
-
-type RouteDefinition = {
-  path: string,
-  exact: boolean,
-  authenticated: boolean,
-  sidebar: boolean,
-  component: React.ReactNode
-}
-
-const routes: RouteDefinition[] = [
-  {
-    path: appPaths.available,
-    exact: false,
-    authenticated: true,
-    sidebar: true,
-    component: <AvailableHoursPage />,
-  },
-  {
-    path: appPaths.claimed,
-    exact: false,
-    authenticated: true,
-    sidebar: true,
-    component: <ClaimedHoursPage />,
-  },
-  {
-    path: appPaths.requests,
-    exact: false,
-    authenticated: true,
-    sidebar: true,
-    component: <SubRequestsPage />,
-  },
-  {
-    path: appPaths.settings,
-    exact: false,
-    authenticated: true,
-    sidebar: true,
-    component: <SettingsPage />,
-  },
-  {
-    path: appPaths.login,
-    exact: false,
-    authenticated: false,
-    sidebar: false,
-    component: <LoginPage />,
-  },
-  {
-    path: appPaths.register,
-    exact: false,
-    authenticated: false,
-    sidebar: false,
-    component: <SignUpPage />,
-  },
-  {
-    path: appPaths.home,
-    exact: true,
-    authenticated: false,
-    sidebar: false,
-    component: <HomePage />,
-  },
-];
+import RouteBuilder from './components/RouteBuilder';
 
 function App() {
-  const getRouteComponent = (authenticationRequired: boolean) => {
-    if (authenticationRequired) {
-      return AuthenticatedRoute;
-    }
-
-    return Route;
-  };
-
-  const getLayoutComponent = (hasSidebar: boolean) => {
-    if (hasSidebar) {
-      return ResponsiveDrawerLayout;
-    }
-
-    return NoSidebarLayout;
-  };
-
-  const getRoute = (route: RouteDefinition) => {
-    const RouteComponent = getRouteComponent(route.authenticated);
-    const LayoutComponent = getLayoutComponent(route.sidebar);
-    return (
-      <RouteComponent
-        key={route.path}
-        path={route.path}
-        exact={route.exact}
-      >
-        <LayoutComponent>
-          <Container>
-            <Suspense fallback={<CircularProgress />}>
-              {route.component}
-            </Suspense>
-          </Container>
-        </LayoutComponent>
-      </RouteComponent>
-    );
-  };
-
   const theme = createTheme({
     palette: {
       primary: teal,
@@ -134,13 +23,13 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <UserProvider>
-          <Router>
-            <Switch>
-              {routes.map((route) => getRoute(route))}
-            </Switch>
-          </Router>
-        </UserProvider>
+        <Router>
+          <Switch>
+            <UserProvider>
+              <RouteBuilder />
+            </UserProvider>
+          </Switch>
+        </Router>
       </LocalizationProvider>
     </ThemeProvider>
   );
