@@ -35,7 +35,12 @@ const AddHourDialog = ({ open, handleConfirmAddHour, handleClose }: Props) => {
         </Button>
         <Button
           color="success"
-          onClick={() => handleConfirmAddHour()}
+          onClick={() => handleConfirmAddHour({
+            day: 1,
+            hour: 1,
+            location: "please change all of this",
+            minimumNumberOfAdorers: 2
+          })}
         >
           Submit
         </Button>

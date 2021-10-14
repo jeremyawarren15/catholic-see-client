@@ -3,5 +3,5 @@ export type RouteDefinition = {
   exact: boolean,
   authenticated: boolean,
   sidebar: boolean,
-  component: React.ReactNode
+  component: React.FunctionComponent
 }
